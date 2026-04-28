@@ -10,12 +10,14 @@ public class DatabaseManager {
     private static final String URL = "jdbc:sqlite:personaltrainer.db";
     private final Logger logger = Logger.getLogger(this.getClass().getName());
 
-    public void getConnection() {
+    public Connection getConnection() {
         try {
-            if(connection == null || connection.isClosed()) {
+//            if(connection == null || connection.isClosed()) {
                 connection = DriverManager.getConnection(URL);
                 logger.info("Connected to database");
-            }
+                return connection;
+//            }
+
         } catch (SQLException e) {
             logger.info(e.toString());
             throw new RuntimeException("DB connection failed");
