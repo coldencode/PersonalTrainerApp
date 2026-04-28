@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10" alignment="CENTER"
+      xmlns:fx="http://javafx.com/fxml"
+>
+
+    <Label text="User Profile"/>
+
+    <TextField fx:id="nameField" promptText="Enter name"/>
+    <TextField fx:id="weightField" promptText="Enter weight"/>
+
+    <Button text="Save"/>
+
+</VBox>
