@@ -34,7 +34,11 @@ public class DatabaseSchema {
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL,
                 weight REAL,
-                height REAL
+                height REAL,
+                goal TEXT,
+                date_of_birth TEXT,
+                gender TEXT,
+                weekly_goal TEXT
             );
         """;
         executeStatement(connection, usersTable);

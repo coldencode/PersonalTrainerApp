@@ -2,6 +2,7 @@ package com.example.personaltrainerapp;
 
 import com.example.personaltrainerapp.database.DatabaseManager;
 import com.example.personaltrainerapp.database.DatabaseSchema;
+import com.example.personaltrainerapp.repository.UserRepository;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -21,16 +22,16 @@ public class Main extends Application {
         Connection connection = db.getConnection();
         DatabaseSchema.init(connection);
 
+        // Route to onboarding on first launch, dashboard otherwise
+        boolean isFirstLaunch = !new UserRepository(connection).hasUser();
+        String view = isFirstLaunch ? "OnboardingView.fxml" : "DashboardView.fxml";
 
-        // Setting the Main Screen
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("DashboardView.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Personal Trainer Application");
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(view));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setTitle("Personal Trainer App");
         stage.setScene(scene);
         stage.setWidth(1280);
         stage.setHeight(720);
         stage.show();
-
-
     }
 }
