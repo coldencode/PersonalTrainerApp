@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.personaltrainerapp.ui.dashboard.DashboardController">
+
+    <top>
+        <HBox spacing="20"
+              style="-fx-padding: 20; -fx-background-color: #20232A;">
+
+            <Label text="Personal Trainer Dashboard"
+                   style="-fx-text-fill: white; -fx-font-size: 24px;" />
+
+        </HBox>
+    </top>
+
+    <left>
+        <VBox spacing="15"
+              style="-fx-padding: 20; -fx-background-color: #F4F4F4;">
+
+            <Label text="Statistics"
+                   style="-fx-font-size: 18px;" />
+
+            <HBox spacing="10">
+
+                <Label text="Total Clients:" />
+
+                <Label fx:id="totalClientsLabel" />
+
+            </HBox>
+
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="10"
+              style="-fx-padding: 20;">
+
+            <Label text="Clients"
+                   style="-fx-font-size: 20px;" />
+
+            <ListView fx:id="clientListView"
+                      prefHeight="500" />
+
+        </VBox>
+    </center>
+
+</BorderPane>

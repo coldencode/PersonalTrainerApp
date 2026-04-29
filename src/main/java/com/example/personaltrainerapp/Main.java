@@ -21,10 +21,14 @@ public class Main extends Application {
         Connection connection = db.getConnection();
         DatabaseSchema.init(connection);
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("user-view.fxml"));
+
+        // Setting the Main Screen
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("DashboardView.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
+        stage.setTitle("Personal Trainer Application");
         stage.setScene(scene);
+        stage.setWidth(1280);
+        stage.setHeight(720);
         stage.show();
 
 

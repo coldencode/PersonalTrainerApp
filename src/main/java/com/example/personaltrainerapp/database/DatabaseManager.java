@@ -6,14 +6,13 @@ import java.sql.SQLException;
 import java.util.logging.Logger;
 
 public class DatabaseManager {
-    private Connection connection;
     private static final String URL = "jdbc:sqlite:personaltrainer.db";
     private final Logger logger = Logger.getLogger(this.getClass().getName());
 
     public Connection getConnection() {
         try {
 //            if(connection == null || connection.isClosed()) {
-                connection = DriverManager.getConnection(URL);
+            Connection connection = DriverManager.getConnection(URL);
                 logger.info("Connected to database");
                 return connection;
 //            }
