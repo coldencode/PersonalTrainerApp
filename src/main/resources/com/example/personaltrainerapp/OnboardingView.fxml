@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.personaltrainerapp.ui.onboarding.OnboardingController">
+
+    <top>
+        <HBox style="-fx-padding: 20; -fx-background-color: #20232A;">
+            <Label text="Welcome to Personal Trainer App"
+                   style="-fx-text-fill: white; -fx-font-size: 24px;" />
+        </HBox>
+    </top>
+
+    <center>
+        <VBox spacing="0" style="-fx-padding: 40; -fx-alignment: center;">
+
+            <!-- Step 1: Name -->
+            <VBox fx:id="step1" spacing="16" style="-fx-alignment: center-left; -fx-max-width: 400;">
+                <Label text="First, what can we call you?"
+                       style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+                <TextField fx:id="nameField" promptText="Your name" />
+                <HBox spacing="10" style="-fx-alignment: center-right;">
+                    <Button text="Next →" onAction="#onNext"
+                            style="-fx-background-color: #20232A; -fx-text-fill: white; -fx-padding: 8 20;" />
+                </HBox>
+            </VBox>
+
+            <!-- Step 2: Goal -->
+            <VBox fx:id="step2" spacing="16" style="-fx-alignment: center-left; -fx-max-width: 400;">
+                <Label text="What are your goals?"
+                       style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+                <fx:define>
+                    <ToggleGroup fx:id="goalGroup" />
+                </fx:define>
+                <RadioButton text="Lose Weight"     toggleGroup="$goalGroup" />
+                <RadioButton text="Maintain Weight" toggleGroup="$goalGroup" />
+                <RadioButton text="Gain Weight"     toggleGroup="$goalGroup" />
+                <HBox spacing="10" style="-fx-alignment: center-right;">
+                    <Button text="← Back" onAction="#onBack"
+                            style="-fx-padding: 8 20;" />
+                    <Button text="Next →" onAction="#onNext"
+                            style="-fx-background-color: #20232A; -fx-text-fill: white; -fx-padding: 8 20;" />
+                </HBox>
+            </VBox>
+
+            <!-- Step 3: About you -->
+            <VBox fx:id="step3" spacing="14" style="-fx-alignment: center-left; -fx-max-width: 400;">
+                <Label text="A little about you"
+                       style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+
+                <Label text="Height (cm)" />
+                <TextField fx:id="heightField" promptText="e.g. 175" />
+
+                <Label text="Weight (kg)" />
+                <TextField fx:id="weightField" promptText="e.g. 70" />
+
+                <Label text="Date of Birth" />
+                <DatePicker fx:id="dobPicker" />
+
+                <Label text="Gender" />
+                <ComboBox fx:id="genderCombo" maxWidth="Infinity" />
+
+                <HBox spacing="10" style="-fx-alignment: center-right;">
+                    <Button text="← Back" onAction="#onBack"
+                            style="-fx-padding: 8 20;" />
+                    <Button text="Next →" onAction="#onNext"
+                            style="-fx-background-color: #20232A; -fx-text-fill: white; -fx-padding: 8 20;" />
+                </HBox>
+            </VBox>
+
+            <!-- Step 4: Weekly goal (dynamic options based on step 2) -->
+            <VBox fx:id="step4" spacing="16" style="-fx-alignment: center-left; -fx-max-width: 400;">
+                <Label fx:id="weeklyGoalTitle"
+                       style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+                <fx:define>
+                    <ToggleGroup fx:id="weeklyGoalGroup" />
+                </fx:define>
+                <RadioButton fx:id="weeklyOption1" toggleGroup="$weeklyGoalGroup" />
+                <RadioButton fx:id="weeklyOption2" toggleGroup="$weeklyGoalGroup" />
+                <RadioButton fx:id="weeklyOption3" toggleGroup="$weeklyGoalGroup" />
+                <HBox spacing="10" style="-fx-alignment: center-right;">
+                    <Button text="← Back" onAction="#onBack"
+                            style="-fx-padding: 8 20;" />
+                    <Button text="Get Started ✓" onAction="#onNext"
+                            style="-fx-background-color: #20232A; -fx-text-fill: white; -fx-padding: 8 20;" />
+                </HBox>
+            </VBox>
+
+        </VBox>
+    </center>
+
+</BorderPane>
