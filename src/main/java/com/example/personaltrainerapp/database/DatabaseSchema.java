@@ -8,6 +8,7 @@ public class DatabaseSchema {
     public static void init(Connection conn) {
         createUserTable(conn);
         createWeightLogTable(conn);
+        createMealLogTable(conn);
     }
 
     /**
@@ -54,5 +55,19 @@ public class DatabaseSchema {
             );
         """;
         executeStatement(connection, weightLogTable);
+    }
+
+    private static void createMealLogTable(Connection connection) {
+        String mealLogTable = """
+            CREATE TABLE IF NOT EXISTS meal_log (
+                id        INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id   INTEGER NOT NULL,
+                meal_type TEXT    NOT NULL,
+                calories  INTEGER NOT NULL,
+                date      TEXT    NOT NULL,
+                FOREIGN KEY (user_id) REFERENCES users(id)
+            );
+        """;
+        executeStatement(connection, mealLogTable);
     }
 }
