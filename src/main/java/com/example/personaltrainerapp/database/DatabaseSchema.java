@@ -9,6 +9,7 @@ public class DatabaseSchema {
         createUserTable(conn);
         createWeightLogTable(conn);
         createMealLogTable(conn);
+        createWorkoutLogTable(conn);
     }
 
     /**
@@ -69,5 +70,20 @@ public class DatabaseSchema {
             );
         """;
         executeStatement(connection, mealLogTable);
+    }
+
+    private static void createWorkoutLogTable(Connection connection) {
+        String workoutLogTable = """
+            CREATE TABLE IF NOT EXISTS workout_log (
+                id               INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id          INTEGER NOT NULL,
+                type             TEXT    NOT NULL,
+                duration_minutes INTEGER NOT NULL,
+                distance_km      REAL,
+                date             TEXT    NOT NULL,
+                FOREIGN KEY (user_id) REFERENCES users(id)
+            );
+        """;
+        executeStatement(connection, workoutLogTable);
     }
 }

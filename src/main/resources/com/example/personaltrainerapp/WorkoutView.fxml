@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<HBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.personaltrainerapp.ui.workout.WorkoutController"
+      spacing="20"
+      style="-fx-padding: 30; -fx-background-color: #F0F2F5; -fx-alignment: top-left;">
+
+    <!-- ── Left: Log + Recent ── -->
+    <VBox spacing="14"
+          style="-fx-background-color: white; -fx-padding: 28; -fx-pref-width: 400;
+                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 12, 0, 0, 3);">
+
+        <Label text="Log a Workout"
+               style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #20232A;" />
+
+        <HBox spacing="10">
+            <Button text="+ Log Workout" onAction="#onLogWorkout"
+                    style="-fx-background-color: #20232A; -fx-text-fill: white;
+                           -fx-font-size: 13px; -fx-padding: 8 18; -fx-cursor: hand;" />
+            <Button text="🏃  Log Run" onAction="#onLogRun"
+                    style="-fx-background-color: #F0F2F5; -fx-text-fill: #333;
+                           -fx-font-size: 13px; -fx-padding: 8 18; -fx-cursor: hand;" />
+        </HBox>
+
+        <Separator />
+
+        <Label text="RECENT"
+               style="-fx-font-size: 11px; -fx-text-fill: #AAA; -fx-font-weight: bold;" />
+
+        <ListView fx:id="recentListView" VBox.vgrow="ALWAYS" prefHeight="400"
+                  style="-fx-font-size: 13px;" />
+
+    </VBox>
+
+    <!-- ── Right: Stats + Bests ── -->
+    <VBox spacing="16" HBox.hgrow="ALWAYS">
+
+        <!-- Weekly Stats card -->
+        <VBox spacing="14"
+              style="-fx-background-color: white; -fx-padding: 28;
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 12, 0, 0, 3);">
+
+            <Label text="THIS WEEK"
+                   style="-fx-font-size: 11px; -fx-text-fill: #AAA; -fx-font-weight: bold;" />
+
+            <HBox spacing="30">
+
+                <VBox spacing="2">
+                    <Label fx:id="weekCountLabel"
+                           style="-fx-font-size: 40px; -fx-font-weight: bold; -fx-text-fill: #20232A;" />
+                    <Label text="workouts"
+                           style="-fx-font-size: 12px; -fx-text-fill: #AAA;" />
+                </VBox>
+
+                <VBox spacing="2">
+                    <Label fx:id="weekMinutesLabel"
+                           style="-fx-font-size: 40px; -fx-font-weight: bold; -fx-text-fill: #20232A;" />
+                    <Label text="minutes"
+                           style="-fx-font-size: 12px; -fx-text-fill: #AAA;" />
+                </VBox>
+
+                <VBox spacing="2">
+                    <Label fx:id="weekDistanceLabel"
+                           style="-fx-font-size: 40px; -fx-font-weight: bold; -fx-text-fill: #20232A;" />
+                    <Label text="km"
+                           style="-fx-font-size: 12px; -fx-text-fill: #AAA;" />
+                </VBox>
+
+            </HBox>
+
+        </VBox>
+
+        <!-- Personal Bests card -->
+        <VBox spacing="14"
+              style="-fx-background-color: white; -fx-padding: 28;
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 12, 0, 0, 3);">
+
+            <Label text="PERSONAL BESTS"
+                   style="-fx-font-size: 11px; -fx-text-fill: #AAA; -fx-font-weight: bold;" />
+
+            <Label fx:id="bestRunLabel"
+                   style="-fx-font-size: 15px; -fx-text-fill: #20232A;" />
+
+            <Label fx:id="bestPaceLabel"
+                   style="-fx-font-size: 15px; -fx-text-fill: #20232A;" />
+
+            <Label fx:id="longestSessionLabel"
+                   style="-fx-font-size: 15px; -fx-text-fill: #20232A;" />
+
+        </VBox>
+
+    </VBox>
+
+</HBox>

@@ -1,5 +1,6 @@
 package com.example.personaltrainerapp.repository;
 
+import com.example.personaltrainerapp.enums.MealType;
 import com.example.personaltrainerapp.model.DailyCalorieEntry;
 import com.example.personaltrainerapp.model.MealEntry;
 
@@ -16,11 +17,11 @@ public class MealRepository {
         this.connection = connection;
     }
 
-    public void logMeal(int userId, String mealType, int calories, LocalDate date) {
+    public void logMeal(int userId, MealType mealType, int calories, LocalDate date) {
         String sql = "INSERT INTO meal_log (user_id, meal_type, calories, date) VALUES (?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, userId);
-            ps.setString(2, mealType);
+            ps.setString(2, mealType.getLabel());
             ps.setInt(3, calories);
             ps.setString(4, date.toString());
             ps.executeUpdate();
@@ -40,7 +41,7 @@ public class MealRepository {
                 entries.add(new MealEntry(
                         rs.getInt("id"),
                         rs.getInt("user_id"),
-                        rs.getString("meal_type"),
+                        MealType.fromLabel(rs.getString("meal_type")),
                         rs.getInt("calories"),
                         LocalDate.parse(rs.getString("date"))
                 ));

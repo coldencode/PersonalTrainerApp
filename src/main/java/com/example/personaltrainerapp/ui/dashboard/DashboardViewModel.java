@@ -1,6 +1,7 @@
 package com.example.personaltrainerapp.ui.dashboard;
 
 import com.example.personaltrainerapp.database.DatabaseManager;
+import com.example.personaltrainerapp.enums.MealType;
 import com.example.personaltrainerapp.model.DailyCalorieEntry;
 import com.example.personaltrainerapp.model.MealEntry;
 import com.example.personaltrainerapp.model.User;
@@ -111,7 +112,7 @@ public class DashboardViewModel {
 
     // ── Meal log ──
 
-    public void logMeal(String mealType, int calories) {
+    public void logMeal(MealType mealType, int calories) {
         mealRepo.logMeal(user.getId(), mealType, calories, LocalDate.now());
         refreshTodayIntake();
     }

@@ -1,5 +1,7 @@
 package com.example.personaltrainerapp.ui.dashboard;
 
+import com.example.personaltrainerapp.enums.MealType;
+import com.example.personaltrainerapp.enums.UserGoal;
 import com.example.personaltrainerapp.model.WeightEntry;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
@@ -50,24 +52,20 @@ public class DashboardController {
 
     @FXML
     private void onChangeWeeklyGoal() {
-        String goal = vm.getUser().getGoal();
-        List<String> options = switch (goal != null ? goal : "") {
-            case "Gain Weight" -> List.of(
-                    "Gain 0.2 kg / week  (slow & steady)",
-                    "Gain 0.5 kg / week  (moderate)",
-                    "Gain 1.0 kg / week  (aggressive)"
-            );
-            case "Lose Weight" -> List.of(
-                    "Lose 0.2 kg / week  (slow & steady)",
-                    "Lose 0.5 kg / week  (moderate)",
-                    "Lose 1.0 kg / week  (aggressive)"
-            );
-            default -> List.of(
-                    "Keep my current weight",
-                    "Improve body composition",
-                    "Build endurance & fitness"
-            );
-        };
+        UserGoal goal = vm.getUser().getGoal();
+        List<String> options = (goal == UserGoal.GAIN_WEIGHT) ? List.of(
+                "Gain 0.2 kg / week  (slow & steady)",
+                "Gain 0.5 kg / week  (moderate)",
+                "Gain 1.0 kg / week  (aggressive)"
+        ) : (goal == UserGoal.LOSE_WEIGHT) ? List.of(
+                "Lose 0.2 kg / week  (slow & steady)",
+                "Lose 0.5 kg / week  (moderate)",
+                "Lose 1.0 kg / week  (aggressive)"
+        ) : List.of(
+                "Keep my current weight",
+                "Improve body composition",
+                "Build endurance & fitness"
+        );
 
         String current = vm.getUser().getWeeklyGoal();
         String defaultChoice = (current != null && options.contains(current)) ? current : options.get(0);
@@ -84,14 +82,14 @@ public class DashboardController {
         });
     }
 
-    @FXML private void onLogBreakfast() { showLogDialog("Breakfast"); }
-    @FXML private void onLogLunch()     { showLogDialog("Lunch"); }
-    @FXML private void onLogDinner()    { showLogDialog("Dinner"); }
+    @FXML private void onLogBreakfast() { showLogDialog(MealType.BREAKFAST); }
+    @FXML private void onLogLunch()     { showLogDialog(MealType.LUNCH); }
+    @FXML private void onLogDinner()    { showLogDialog(MealType.DINNER); }
 
-    private void showLogDialog(String mealType) {
+    private void showLogDialog(MealType mealType) {
         TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Log " + mealType);
-        dialog.setHeaderText("How many calories in your " + mealType.toLowerCase() + "?");
+        dialog.setTitle("Log " + mealType.getLabel());
+        dialog.setHeaderText("How many calories in your " + mealType.getLabel().toLowerCase() + "?");
         dialog.setContentText("Calories:");
         dialog.showAndWait().ifPresent(input -> {
             try {
