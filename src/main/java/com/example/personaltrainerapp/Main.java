@@ -22,12 +22,16 @@ public class Main extends Application {
         Connection connection = db.getConnection();
         DatabaseSchema.init(connection);
 
-        // Route to onboarding on first launch, dashboard otherwise
+        // Route to onboarding on first launch, main tab view otherwise
         boolean isFirstLaunch = !new UserRepository(connection).hasUser();
-        String view = isFirstLaunch ? "OnboardingView.fxml" : "DashboardView.fxml";
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(view));
-        Scene scene = new Scene(fxmlLoader.load());
+        Scene scene;
+        if (isFirstLaunch) {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("OnboardingView.fxml"));
+            scene = new Scene(loader.load());
+        } else {
+            scene = new Scene(SceneManager.buildMainScene());
+        }
         stage.setTitle("Personal Trainer App");
         stage.setScene(scene);
         stage.setWidth(1280);
