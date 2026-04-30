@@ -1,10 +1,11 @@
 package com.example.personaltrainerapp.ui.onboarding;
 
+import com.example.personaltrainerapp.SceneManager;
 import com.example.personaltrainerapp.database.DatabaseManager;
+import com.example.personaltrainerapp.enums.UserGoal;
 import com.example.personaltrainerapp.repository.UserRepository;
 import com.example.personaltrainerapp.model.User;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
@@ -56,18 +57,19 @@ public class OnboardingController {
     /** Fills step 4's title and radio buttons based on the goal chosen in step 2. */
     private void populateWeeklyGoalOptions() {
         RadioButton selectedGoal = (RadioButton) goalGroup.getSelectedToggle();
-        String goal = selectedGoal != null ? selectedGoal.getText() : "";
+        UserGoal goal = selectedGoal != null ? UserGoal.fromLabel(selectedGoal.getText()) : null;
 
         weeklyGoalGroup.selectToggle(null);
 
+        if (goal == null) return;
         switch (goal) {
-            case "Gain Weight" -> {
+            case GAIN_WEIGHT -> {
                 weeklyGoalTitle.setText("How fast do you want to gain?");
                 weeklyOption1.setText("Gain 0.2 kg / week  (slow & steady)");
                 weeklyOption2.setText("Gain 0.5 kg / week  (moderate)");
                 weeklyOption3.setText("Gain 1.0 kg / week  (aggressive)");
             }
-            case "Lose Weight" -> {
+            case LOSE_WEIGHT -> {
                 weeklyGoalTitle.setText("How fast do you want to lose?");
                 weeklyOption1.setText("Lose 0.2 kg / week  (slow & steady)");
                 weeklyOption2.setText("Lose 0.5 kg / week  (moderate)");
@@ -102,7 +104,7 @@ public class OnboardingController {
         user.setName(nameField.getText().trim());
 
         RadioButton selectedGoal = (RadioButton) goalGroup.getSelectedToggle();
-        if (selectedGoal != null) user.setGoal(selectedGoal.getText());
+        if (selectedGoal != null) user.setGoal(UserGoal.fromLabel(selectedGoal.getText()));
 
         try {
             user.setHeight(Double.parseDouble(heightField.getText().trim()));
@@ -120,15 +122,12 @@ public class OnboardingController {
         DatabaseManager db = new DatabaseManager();
         new UserRepository(db.getConnection()).save(user);
 
-        // Switch to Dashboard
+        // Switch to main tab view
         try {
-            FXMLLoader loader = new FXMLLoader(
-                    OnboardingController.class.getResource("/com/example/personaltrainerapp/DashboardView.fxml")
-            );
             Stage stage = (Stage) nameField.getScene().getWindow();
-            stage.setScene(new Scene(loader.load()));
+            stage.setScene(new Scene(SceneManager.buildMainScene()));
         } catch (IOException e) {
-            throw new RuntimeException("Failed to load Dashboard", e);
+            throw new RuntimeException("Failed to load main view", e);
         }
     }
 }
