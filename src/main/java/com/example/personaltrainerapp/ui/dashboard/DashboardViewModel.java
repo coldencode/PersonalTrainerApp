@@ -1,10 +1,15 @@
 package com.example.personaltrainerapp.ui.dashboard;
 
 import com.example.personaltrainerapp.database.DatabaseManager;
+import com.example.personaltrainerapp.model.DailyCalorieEntry;
+import com.example.personaltrainerapp.model.MealEntry;
 import com.example.personaltrainerapp.model.User;
 import com.example.personaltrainerapp.model.WeightEntry;
+import com.example.personaltrainerapp.repository.MealRepository;
 import com.example.personaltrainerapp.repository.UserRepository;
 import com.example.personaltrainerapp.repository.WeightRepository;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -16,17 +21,26 @@ public class DashboardViewModel {
 
     private final User user;
     private final ObservableList<WeightEntry> weightEntries = FXCollections.observableArrayList();
-    private final int dailyCalories;
+    private final ObservableList<MealEntry> todayMeals = FXCollections.observableArrayList();
+    private final ObservableList<DailyCalorieEntry> calorieDailyTotals = FXCollections.observableArrayList();
+    private final IntegerProperty todayIntake = new SimpleIntegerProperty(0);
+    private int dailyCalories;
     private final WeightRepository weightRepo;
+    private final MealRepository mealRepo;
+    private final UserRepository userRepo;
 
     public DashboardViewModel() {
         Connection conn = new DatabaseManager().getConnection();
 
-        user = new UserRepository(conn)
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException("No user found"));
+        userRepo   = new UserRepository(conn);
+        user       = userRepo.findFirst()
+                             .orElseThrow(() -> new IllegalStateException("No user found"));
 
         weightRepo = new WeightRepository(conn);
+        mealRepo   = new MealRepository(conn);
+
+        // Load today's meal intake
+        refreshTodayIntake();
 
         // Seed the chart with the starting weight from onboarding if nothing logged yet
         weightEntries.setAll(weightRepo.getEntries(user.getId()));
@@ -86,6 +100,31 @@ public class DashboardViewModel {
         if (bmi < 30.0) return "Overweight";
         return "Obese";
     }
+
+    // ── Weekly goal ──
+
+    public void updateWeeklyGoal(String weeklyGoal) {
+        user.setWeeklyGoal(weeklyGoal);
+        userRepo.updateWeeklyGoal(user.getId(), weeklyGoal);
+        dailyCalories = calculateDailyCalories(user);
+    }
+
+    // ── Meal log ──
+
+    public void logMeal(String mealType, int calories) {
+        mealRepo.logMeal(user.getId(), mealType, calories, LocalDate.now());
+        refreshTodayIntake();
+    }
+
+    private void refreshTodayIntake() {
+        todayMeals.setAll(mealRepo.getTodayMeals(user.getId(), LocalDate.now()));
+        todayIntake.set(mealRepo.getTodayTotalCalories(user.getId(), LocalDate.now()));
+        calorieDailyTotals.setAll(mealRepo.getDailyTotals(user.getId()));
+    }
+
+    public ObservableList<MealEntry> getTodayMeals()                      { return todayMeals; }
+    public IntegerProperty todayIntakeProperty()                          { return todayIntake; }
+    public ObservableList<DailyCalorieEntry> getCalorieDailyTotals()      { return calorieDailyTotals; }
 
     // ── Weight log mutations ──
 

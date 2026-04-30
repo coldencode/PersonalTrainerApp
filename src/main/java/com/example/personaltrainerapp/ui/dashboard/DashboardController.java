@@ -4,14 +4,20 @@ import com.example.personaltrainerapp.model.WeightEntry;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
+
+import java.util.List;
 
 public class DashboardController {
 
     @FXML private Label welcomeLabel;
     @FXML private Label calorieGoalLabel;
     @FXML private Label weeklyGoalLabel;
+    @FXML private Label intakeLabel;
+    @FXML private Label remainingLabel;
+    @FXML private LineChart<String, Number> calorieHistoryChart;
     @FXML private Label bmiValueLabel;
     @FXML private Label bmiCategoryLabel;
     @FXML private LineChart<String, Number> weightChart;
@@ -30,7 +36,82 @@ public class DashboardController {
         bmiValueLabel.setText(bmi >= 0 ? String.valueOf(bmi) : "—");
         bmiCategoryLabel.setText(vm.getBmiCategory());
 
+        // Bind intake & remaining reactively so they update on every meal log
+        intakeLabel.textProperty().bind(vm.todayIntakeProperty().asString());
+        vm.todayIntakeProperty().addListener((obs, oldVal, newVal) -> {
+            updateRemaining(newVal.intValue());
+            refreshCalorieChart();
+        });
+        updateRemaining(vm.todayIntakeProperty().get());
+
+        refreshCalorieChart();
         refreshChart();
+    }
+
+    @FXML
+    private void onChangeWeeklyGoal() {
+        String goal = vm.getUser().getGoal();
+        List<String> options = switch (goal != null ? goal : "") {
+            case "Gain Weight" -> List.of(
+                    "Gain 0.2 kg / week  (slow & steady)",
+                    "Gain 0.5 kg / week  (moderate)",
+                    "Gain 1.0 kg / week  (aggressive)"
+            );
+            case "Lose Weight" -> List.of(
+                    "Lose 0.2 kg / week  (slow & steady)",
+                    "Lose 0.5 kg / week  (moderate)",
+                    "Lose 1.0 kg / week  (aggressive)"
+            );
+            default -> List.of(
+                    "Keep my current weight",
+                    "Improve body composition",
+                    "Build endurance & fitness"
+            );
+        };
+
+        String current = vm.getUser().getWeeklyGoal();
+        String defaultChoice = (current != null && options.contains(current)) ? current : options.get(0);
+
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(defaultChoice, options);
+        dialog.setTitle("Change Weekly Goal");
+        dialog.setHeaderText("Select a new weekly goal");
+        dialog.setContentText("Goal:");
+        dialog.showAndWait().ifPresent(selected -> {
+            vm.updateWeeklyGoal(selected);
+            weeklyGoalLabel.setText(selected);
+            calorieGoalLabel.setText(String.valueOf(vm.getDailyCalories()));
+            updateRemaining(vm.todayIntakeProperty().get());
+        });
+    }
+
+    @FXML private void onLogBreakfast() { showLogDialog("Breakfast"); }
+    @FXML private void onLogLunch()     { showLogDialog("Lunch"); }
+    @FXML private void onLogDinner()    { showLogDialog("Dinner"); }
+
+    private void showLogDialog(String mealType) {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Log " + mealType);
+        dialog.setHeaderText("How many calories in your " + mealType.toLowerCase() + "?");
+        dialog.setContentText("Calories:");
+        dialog.showAndWait().ifPresent(input -> {
+            try {
+                int calories = Integer.parseInt(input.trim());
+                vm.logMeal(mealType, calories);
+            } catch (NumberFormatException e) {
+                // TODO: show inline validation message
+            }
+        });
+    }
+
+    private void updateRemaining(int intake) {
+        int remaining = vm.getDailyCalories() - intake;
+        if (remaining >= 0) {
+            remainingLabel.setText(remaining + " kcal remaining");
+            remainingLabel.setStyle("-fx-text-fill: #27AE60; -fx-font-size: 13px;");
+        } else {
+            remainingLabel.setText(Math.abs(remaining) + " kcal over goal");
+            remainingLabel.setStyle("-fx-text-fill: #E74C3C; -fx-font-size: 13px;");
+        }
     }
 
     @FXML
@@ -48,6 +129,26 @@ public class DashboardController {
                 // TODO: show inline validation message
             }
         });
+    }
+
+    private void refreshCalorieChart() {
+        calorieHistoryChart.getData().clear();
+
+        // Series 1 — actual daily intake
+        XYChart.Series<String, Number> intakeSeries = new XYChart.Series<>();
+        intakeSeries.setName("Intake");
+        for (var entry : vm.getCalorieDailyTotals()) {
+            intakeSeries.getData().add(new XYChart.Data<>(entry.date().toString(), entry.totalCalories()));
+        }
+
+        // Series 2 — flat goal line across the same dates
+        XYChart.Series<String, Number> goalSeries = new XYChart.Series<>();
+        goalSeries.setName("Goal");
+        for (var entry : vm.getCalorieDailyTotals()) {
+            goalSeries.getData().add(new XYChart.Data<>(entry.date().toString(), vm.getDailyCalories()));
+        }
+
+        calorieHistoryChart.getData().addAll(intakeSeries, goalSeries);
     }
 
     private void refreshChart() {

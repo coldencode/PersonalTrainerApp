@@ -40,10 +40,45 @@
 
                 <Separator style="-fx-padding: 4 0;" />
 
-                <Label text="Weekly goal"
-                       style="-fx-font-size: 12px; -fx-text-fill: #AAA;" />
+                <HBox style="-fx-alignment: center-left;">
+                    <Label text="Weekly goal"
+                           style="-fx-font-size: 12px; -fx-text-fill: #AAA;" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Button text="✎ Change" onAction="#onChangeWeeklyGoal"
+                            style="-fx-background-color: transparent; -fx-text-fill: #888;
+                                   -fx-font-size: 11px; -fx-cursor: hand; -fx-padding: 2 6;" />
+                </HBox>
                 <Label fx:id="weeklyGoalLabel"
                        style="-fx-font-size: 14px; -fx-text-fill: #333; -fx-wrap-text: true;" />
+
+                <Separator style="-fx-padding: 4 0;" />
+
+                <Label text="TODAY'S INTAKE"
+                       style="-fx-font-size: 11px; -fx-text-fill: #AAA; -fx-font-weight: bold;" />
+
+                <HBox spacing="4" style="-fx-alignment: baseline-left;">
+                    <Label fx:id="intakeLabel"
+                           style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #20232A;" />
+                    <Label text="kcal"
+                           style="-fx-font-size: 13px; -fx-text-fill: #AAA; -fx-padding: 0 0 6 0;" />
+                </HBox>
+
+                <Label fx:id="remainingLabel" />
+
+                <VBox spacing="6" style="-fx-padding: 6 0 0 0;">
+                    <Button text="🍳  Log Breakfast" onAction="#onLogBreakfast" maxWidth="Infinity"
+                            style="-fx-background-color: #F0F2F5; -fx-text-fill: #333;
+                                   -fx-font-size: 13px; -fx-padding: 9 12; -fx-cursor: hand;
+                                   -fx-alignment: center-left;" />
+                    <Button text="🥗  Log Lunch" onAction="#onLogLunch" maxWidth="Infinity"
+                            style="-fx-background-color: #F0F2F5; -fx-text-fill: #333;
+                                   -fx-font-size: 13px; -fx-padding: 9 12; -fx-cursor: hand;
+                                   -fx-alignment: center-left;" />
+                    <Button text="🍽  Log Dinner" onAction="#onLogDinner" maxWidth="Infinity"
+                            style="-fx-background-color: #F0F2F5; -fx-text-fill: #333;
+                                   -fx-font-size: 13px; -fx-padding: 9 12; -fx-cursor: hand;
+                                   -fx-alignment: center-left;" />
+                </VBox>
 
             </VBox>
 
@@ -94,6 +129,21 @@
                     </xAxis>
                     <yAxis>
                         <NumberAxis label="kg" autoRanging="true" />
+                    </yAxis>
+                </LineChart>
+
+                <Separator style="-fx-padding: 4 0;" />
+
+                <Label text="CALORIE HISTORY"
+                       style="-fx-font-size: 11px; -fx-text-fill: #AAA; -fx-font-weight: bold;" />
+
+                <LineChart fx:id="calorieHistoryChart" VBox.vgrow="ALWAYS"
+                           animated="false" style="-fx-padding: 0;">
+                    <xAxis>
+                        <CategoryAxis label="Date" tickLabelRotation="45" />
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis label="kcal" autoRanging="true" />
                     </yAxis>
                 </LineChart>
 
