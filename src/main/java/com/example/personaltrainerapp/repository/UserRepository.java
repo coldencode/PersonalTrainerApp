@@ -1,5 +1,6 @@
 package com.example.personaltrainerapp.repository;
 
+import com.example.personaltrainerapp.enums.UserGoal;
 import com.example.personaltrainerapp.model.User;
 
 import java.sql.*;
@@ -24,7 +25,7 @@ public class UserRepository {
                 user.setName(rs.getString("name"));
                 user.setWeight(rs.getDouble("weight"));
                 user.setHeight(rs.getDouble("height"));
-                user.setGoal(rs.getString("goal"));
+                user.setGoal(UserGoal.fromLabel(rs.getString("goal")));
                 String dob = rs.getString("date_of_birth");
                 if (dob != null) user.setDateOfBirth(LocalDate.parse(dob));
                 user.setGender(rs.getString("gender"));
@@ -67,7 +68,7 @@ public class UserRepository {
             ps.setString(1, user.getName());
             ps.setDouble(2, user.getWeight());
             ps.setDouble(3, user.getHeight());
-            ps.setString(4, user.getGoal());
+            ps.setString(4, user.getGoal() != null ? user.getGoal().getLabel() : null);
             ps.setString(5, user.getDateOfBirth() != null ? user.getDateOfBirth().toString() : null);
             ps.setString(6, user.getGender());
             ps.setString(7, user.getWeeklyGoal());

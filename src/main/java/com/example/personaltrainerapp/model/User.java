@@ -1,5 +1,7 @@
 package com.example.personaltrainerapp.model;
 
+import com.example.personaltrainerapp.enums.UserGoal;
+
 import java.time.LocalDate;
 
 public class User {
@@ -7,9 +9,10 @@ public class User {
     private String name;
     private double height;
     private double weight;
-    private String goal;
+    private UserGoal goal;
     private LocalDate dateOfBirth;
     private String gender;
+    private String weeklyGoal;
 
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
@@ -23,8 +26,8 @@ public class User {
     public double getWeight() { return weight; }
     public void setWeight(double weight) { this.weight = weight; }
 
-    public String getGoal() { return goal; }
-    public void setGoal(String goal) { this.goal = goal; }
+    public UserGoal getGoal() { return goal; }
+    public void setGoal(UserGoal goal) { this.goal = goal; }
 
     public LocalDate getDateOfBirth() { return dateOfBirth; }
     public void setDateOfBirth(LocalDate dateOfBirth) { this.dateOfBirth = dateOfBirth; }
@@ -32,7 +35,6 @@ public class User {
     public String getGender() { return gender; }
     public void setGender(String gender) { this.gender = gender; }
 
-    private String weeklyGoal;
     public String getWeeklyGoal() { return weeklyGoal; }
     public void setWeeklyGoal(String weeklyGoal) { this.weeklyGoal = weeklyGoal; }
 }
