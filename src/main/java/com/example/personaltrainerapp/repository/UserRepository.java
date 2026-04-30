@@ -47,6 +47,17 @@ public class UserRepository {
         }
     }
 
+    public void updateWeeklyGoal(int userId, String weeklyGoal) {
+        String sql = "UPDATE users SET weekly_goal = ? WHERE id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, weeklyGoal);
+            ps.setInt(2, userId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("DB update failed", e);
+        }
+    }
+
     public void save(User user) {
         String sql = """
             INSERT INTO users (name, weight, height, goal, date_of_birth, gender, weekly_goal)
