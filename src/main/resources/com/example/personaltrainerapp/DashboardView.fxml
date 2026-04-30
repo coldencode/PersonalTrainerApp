@@ -47,6 +47,31 @@
 
             </VBox>
 
+            <!-- BMI card -->
+            <VBox spacing="6"
+                  style="-fx-background-color: white; -fx-padding: 28; -fx-pref-width: 260; -fx-min-width: 200;
+                         -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 12, 0, 0, 3);">
+
+                <Label text="BMI"
+                       style="-fx-font-size: 13px; -fx-text-fill: #888; -fx-font-weight: bold;" />
+
+                <HBox spacing="6" style="-fx-alignment: baseline-left;">
+                    <Label fx:id="bmiValueLabel"
+                           style="-fx-font-size: 52px; -fx-font-weight: bold; -fx-text-fill: #20232A;" />
+                </HBox>
+
+                <Label fx:id="bmiCategoryLabel"
+                       style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #555;" />
+
+                <Separator style="-fx-padding: 4 0;" />
+
+                <Label text="Underweight  &lt; 18.5"  style="-fx-font-size: 12px; -fx-text-fill: #AAA;" />
+                <Label text="Normal          18.5 – 24.9" style="-fx-font-size: 12px; -fx-text-fill: #AAA;" />
+                <Label text="Overweight   25 – 29.9"  style="-fx-font-size: 12px; -fx-text-fill: #AAA;" />
+                <Label text="Obese           ≥ 30"        style="-fx-font-size: 12px; -fx-text-fill: #AAA;" />
+
+            </VBox>
+
             <!-- Weight card -->
             <VBox spacing="10" HBox.hgrow="ALWAYS"
                   style="-fx-background-color: white; -fx-padding: 28;

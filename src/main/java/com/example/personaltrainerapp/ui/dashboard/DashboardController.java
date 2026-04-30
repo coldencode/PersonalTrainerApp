@@ -12,6 +12,8 @@ public class DashboardController {
     @FXML private Label welcomeLabel;
     @FXML private Label calorieGoalLabel;
     @FXML private Label weeklyGoalLabel;
+    @FXML private Label bmiValueLabel;
+    @FXML private Label bmiCategoryLabel;
     @FXML private LineChart<String, Number> weightChart;
 
     private final DashboardViewModel vm = new DashboardViewModel();
@@ -23,6 +25,10 @@ public class DashboardController {
 
         String weekly = vm.getUser().getWeeklyGoal();
         weeklyGoalLabel.setText(weekly != null ? weekly : "—");
+
+        double bmi = vm.getBmi();
+        bmiValueLabel.setText(bmi >= 0 ? String.valueOf(bmi) : "—");
+        bmiCategoryLabel.setText(vm.getBmiCategory());
 
         refreshChart();
     }

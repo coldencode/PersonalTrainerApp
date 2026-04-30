@@ -68,6 +68,25 @@ public class DashboardViewModel {
         return (int) Math.round(tdee + adjustment);
     }
 
+    // ── BMI calculation ──
+
+    /** Returns BMI rounded to one decimal place, or -1 if data is missing. */
+    public double getBmi() {
+        if (user.getWeight() == 0 || user.getHeight() == 0) return -1;
+        double heightM = user.getHeight() / 100.0;
+        return Math.round((user.getWeight() / (heightM * heightM)) * 10.0) / 10.0;
+    }
+
+    /** WHO BMI category label. */
+    public String getBmiCategory() {
+        double bmi = getBmi();
+        if (bmi < 0)    return "—";
+        if (bmi < 18.5) return "Underweight";
+        if (bmi < 25.0) return "Normal weight";
+        if (bmi < 30.0) return "Overweight";
+        return "Obese";
+    }
+
     // ── Weight log mutations ──
 
     public void addWeight(double weight) {
