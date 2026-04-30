@@ -2,49 +2,79 @@
 
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.chart.*?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.personaltrainerapp.ui.dashboard.DashboardController">
+            fx:controller="com.example.personaltrainerapp.ui.dashboard.DashboardController"
+            style="-fx-background-color: #F0F2F5;">
 
+    <!-- ── Header ── -->
     <top>
-        <HBox spacing="20"
-              style="-fx-padding: 20; -fx-background-color: #20232A;">
-
-            <Label text="Personal Trainer Dashboard"
-                   style="-fx-text-fill: white; -fx-font-size: 24px;" />
-
+        <HBox style="-fx-padding: 18 24; -fx-background-color: #20232A; -fx-alignment: center-left; -fx-spacing: 12;">
+            <Label text="Personal Trainer App"
+                   style="-fx-text-fill: #AAAAAA; -fx-font-size: 14px;" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Label fx:id="welcomeLabel"
+                   style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;" />
         </HBox>
     </top>
 
-    <left>
-        <VBox spacing="15"
-              style="-fx-padding: 20; -fx-background-color: #F4F4F4;">
-
-            <Label text="Statistics"
-                   style="-fx-font-size: 18px;" />
-
-            <HBox spacing="10">
-
-                <Label text="Total Clients:" />
-
-                <Label fx:id="totalClientsLabel" />
-
-            </HBox>
-
-        </VBox>
-    </left>
-
+    <!-- ── Main content ── -->
     <center>
-        <VBox spacing="10"
-              style="-fx-padding: 20;">
+        <HBox spacing="20" style="-fx-padding: 30; -fx-alignment: top-center;">
 
-            <Label text="Clients"
-                   style="-fx-font-size: 20px;" />
+            <!-- Calories card -->
+            <VBox spacing="6"
+                  style="-fx-background-color: white; -fx-padding: 28; -fx-pref-width: 280; -fx-min-width: 220;
+                         -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 12, 0, 0, 3);">
 
-            <ListView fx:id="clientListView"
-                      prefHeight="500" />
+                <Label text="Daily Calories"
+                       style="-fx-font-size: 13px; -fx-text-fill: #888; -fx-font-weight: bold;" />
 
-        </VBox>
+                <HBox spacing="6" style="-fx-alignment: baseline-left;">
+                    <Label fx:id="calorieGoalLabel"
+                           style="-fx-font-size: 52px; -fx-font-weight: bold; -fx-text-fill: #20232A;" />
+                    <Label text="kcal"
+                           style="-fx-font-size: 16px; -fx-text-fill: #AAA; -fx-padding: 0 0 10 0;" />
+                </HBox>
+
+                <Separator style="-fx-padding: 4 0;" />
+
+                <Label text="Weekly goal"
+                       style="-fx-font-size: 12px; -fx-text-fill: #AAA;" />
+                <Label fx:id="weeklyGoalLabel"
+                       style="-fx-font-size: 14px; -fx-text-fill: #333; -fx-wrap-text: true;" />
+
+            </VBox>
+
+            <!-- Weight card -->
+            <VBox spacing="10" HBox.hgrow="ALWAYS"
+                  style="-fx-background-color: white; -fx-padding: 28;
+                         -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 12, 0, 0, 3);">
+
+                <HBox style="-fx-alignment: center-left;">
+                    <Label text="Weight"
+                           style="-fx-font-size: 13px; -fx-text-fill: #888; -fx-font-weight: bold;" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Button text="+ Add Weight" onAction="#onAddWeight"
+                            style="-fx-background-color: #20232A; -fx-text-fill: white;
+                                   -fx-font-size: 13px; -fx-padding: 6 16; -fx-cursor: hand;" />
+                </HBox>
+
+                <LineChart fx:id="weightChart" VBox.vgrow="ALWAYS"
+                           legendVisible="false" animated="false"
+                           style="-fx-padding: 0;">
+                    <xAxis>
+                        <CategoryAxis label="Date" />
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis label="kg" autoRanging="true" />
+                    </yAxis>
+                </LineChart>
+
+            </VBox>
+
+        </HBox>
     </center>
 
 </BorderPane>

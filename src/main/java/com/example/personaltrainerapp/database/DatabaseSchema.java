@@ -6,9 +6,8 @@ import java.sql.Statement;
 
 public class DatabaseSchema {
     public static void init(Connection conn) {
-        // Create a User Table
         createUserTable(conn);
-
+        createWeightLogTable(conn);
     }
 
     /**
@@ -42,6 +41,18 @@ public class DatabaseSchema {
             );
         """;
         executeStatement(connection, usersTable);
+    }
 
+    private static void createWeightLogTable(Connection connection) {
+        String weightLogTable = """
+            CREATE TABLE IF NOT EXISTS weight_log (
+                id      INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                weight  REAL    NOT NULL,
+                date    TEXT    NOT NULL,
+                FOREIGN KEY (user_id) REFERENCES users(id)
+            );
+        """;
+        executeStatement(connection, weightLogTable);
     }
 }

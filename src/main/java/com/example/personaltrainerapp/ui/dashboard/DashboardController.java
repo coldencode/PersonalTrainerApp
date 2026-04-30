@@ -1,32 +1,57 @@
 package com.example.personaltrainerapp.ui.dashboard;
 
-import com.example.personaltrainerapp.model.Client;
+import com.example.personaltrainerapp.model.WeightEntry;
 import javafx.fxml.FXML;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TextInputDialog;
 
 public class DashboardController {
 
-    @FXML
-    private Label totalClientsLabel;
+    @FXML private Label welcomeLabel;
+    @FXML private Label calorieGoalLabel;
+    @FXML private Label weeklyGoalLabel;
+    @FXML private LineChart<String, Number> weightChart;
 
-    @FXML
-    private ListView<String> clientListView;
-
-    private final DashboardViewModel vm =
-            new DashboardViewModel();
+    private final DashboardViewModel vm = new DashboardViewModel();
 
     @FXML
     public void initialize() {
+        welcomeLabel.setText("Welcome, " + vm.getUser().getName() + "!");
+        calorieGoalLabel.setText(String.valueOf(vm.getDailyCalories()));
 
-        totalClientsLabel.textProperty().bind(
-                vm.totalClientsProperty().asString()
-        );
+        String weekly = vm.getUser().getWeeklyGoal();
+        weeklyGoalLabel.setText(weekly != null ? weekly : "—");
 
-        for (Client client : vm.getClients()) {
-            clientListView.getItems().add(
-                    client.getName()
+        refreshChart();
+    }
+
+    @FXML
+    private void onAddWeight() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Log Weight");
+        dialog.setHeaderText("Add today's weight");
+        dialog.setContentText("Weight (kg):");
+        dialog.showAndWait().ifPresent(input -> {
+            try {
+                double weight = Double.parseDouble(input.trim());
+                vm.addWeight(weight);
+                refreshChart();
+            } catch (NumberFormatException e) {
+                // TODO: show inline validation message
+            }
+        });
+    }
+
+    private void refreshChart() {
+        weightChart.getData().clear();
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        for (WeightEntry entry : vm.getWeightEntries()) {
+            series.getData().add(
+                    new XYChart.Data<>(entry.date().toString(), entry.weight())
             );
         }
+        weightChart.getData().add(series);
     }
 }
