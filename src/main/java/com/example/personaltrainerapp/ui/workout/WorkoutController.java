@@ -1,7 +1,7 @@
 package com.example.personaltrainerapp.ui.workout;
 
 import com.example.personaltrainerapp.enums.WorkoutType;
-import com.example.personaltrainerapp.model.WorkoutEntry;
+import com.example.personaltrainerapp.model.entries.WorkoutEntry;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;

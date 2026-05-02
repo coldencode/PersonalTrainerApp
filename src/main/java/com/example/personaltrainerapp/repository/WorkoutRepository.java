@@ -1,7 +1,7 @@
 package com.example.personaltrainerapp.repository;
 
 import com.example.personaltrainerapp.enums.WorkoutType;
-import com.example.personaltrainerapp.model.WorkoutEntry;
+import com.example.personaltrainerapp.model.entries.WorkoutEntry;
 
 import java.sql.*;
 import java.time.DayOfWeek;

@@ -3,7 +3,7 @@ package com.example.personaltrainerapp.ui.workout;
 import com.example.personaltrainerapp.database.DatabaseManager;
 import com.example.personaltrainerapp.enums.WorkoutType;
 import com.example.personaltrainerapp.model.User;
-import com.example.personaltrainerapp.model.WorkoutEntry;
+import com.example.personaltrainerapp.model.entries.WorkoutEntry;
 import com.example.personaltrainerapp.repository.UserRepository;
 import com.example.personaltrainerapp.repository.WorkoutRepository;
 import javafx.collections.FXCollections;
@@ -11,7 +11,6 @@ import javafx.collections.ObservableList;
 
 import java.sql.Connection;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 public class WorkoutViewModel {
