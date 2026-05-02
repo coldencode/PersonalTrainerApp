@@ -15,8 +15,9 @@ public class SceneManager {
     public static TabPane buildMainScene() throws IOException {
         Tab dashboardTab = loadTab("🏠  Dashboard", "DashboardView.fxml");
         Tab workoutTab   = loadTab("💪  Workouts",  "WorkoutView.fxml");
+        Tab pushUpTab    = loadTab("🤸  Push-Ups",  "PushUpView.fxml");
 
-        TabPane tabPane = new TabPane(dashboardTab, workoutTab);
+        TabPane tabPane = new TabPane(dashboardTab, workoutTab, pushUpTab);
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         return tabPane;
     }
