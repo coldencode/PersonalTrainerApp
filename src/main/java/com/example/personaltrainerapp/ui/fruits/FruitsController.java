@@ -25,7 +25,11 @@ public class FruitsController {
     @FXML private TableColumn<Fruit, Double> fatCol;
     @FXML private Label statusLabel;
 
-    private final FruitsViewModel vm = new FruitsViewModel();
+    private final FruitsViewModel vm;
+
+    public FruitsController(FruitsViewModel vm) {
+        this.vm = vm;
+    }
 
     @FXML
     public void initialize() {
