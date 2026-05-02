@@ -8,5 +8,6 @@ module com.example.personaltrainerapp {
     opens com.example.personaltrainerapp.ui.dashboard to javafx.fxml;
     opens com.example.personaltrainerapp.ui.onboarding to javafx.fxml;
     opens com.example.personaltrainerapp.ui.workout to javafx.fxml;
+    opens com.example.personaltrainerapp.ui.pushup to javafx.fxml;
     exports com.example.personaltrainerapp;
 }

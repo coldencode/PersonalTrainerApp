@@ -1,4 +1,4 @@
-package com.example.personaltrainerapp.model;
+package com.example.personaltrainerapp.model.entries;
 
 import com.example.personaltrainerapp.enums.WorkoutType;
 
