@@ -1,8 +1,8 @@
 package com.example.personaltrainerapp.repository;
 
 import com.example.personaltrainerapp.enums.MealType;
-import com.example.personaltrainerapp.model.DailyCalorieEntry;
-import com.example.personaltrainerapp.model.MealEntry;
+import com.example.personaltrainerapp.model.entries.DailyCalorieEntry;
+import com.example.personaltrainerapp.model.entries.MealEntry;
 
 import java.sql.*;
 import java.time.LocalDate;

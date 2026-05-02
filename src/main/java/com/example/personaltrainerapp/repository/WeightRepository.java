@@ -1,6 +1,6 @@
 package com.example.personaltrainerapp.repository;
 
-import com.example.personaltrainerapp.model.WeightEntry;
+import com.example.personaltrainerapp.model.entries.WeightEntry;
 
 import java.sql.*;
 import java.time.LocalDate;
