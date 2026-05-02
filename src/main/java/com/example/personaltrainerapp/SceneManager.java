@@ -13,11 +13,12 @@ import java.io.IOException;
 public class SceneManager {
 
     public static TabPane buildMainScene() throws IOException {
-        Tab dashboardTab = loadTab("🏠  Dashboard", "DashboardView.fxml");
-        Tab workoutTab   = loadTab("💪  Workouts",  "WorkoutView.fxml");
-        Tab pushUpTab    = loadTab("🤸  Push-Ups",  "PushUpView.fxml");
+        Tab dashboardTab = loadTab("Dashboard","DashboardView.fxml");
+        Tab workoutTab   = loadTab("Workouts", "WorkoutView.fxml");
+        Tab pushUpTab    = loadTab("Push-Ups", "PushUpView.fxml");
+        Tab fruitsTab    = loadTab("Fruits", "FruitsView.fxml");
 
-        TabPane tabPane = new TabPane(dashboardTab, workoutTab, pushUpTab);
+        TabPane tabPane = new TabPane(dashboardTab, workoutTab, pushUpTab, fruitsTab);
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         return tabPane;
     }
