@@ -11,7 +11,7 @@ import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FruityViceAPIService {
+public class FruityViceAPIService implements FruitApiService {
 
     private static final String BASE_URL = "https://www.fruityvice.com/api/fruit";
     private final HttpClient client = HttpClient.newHttpClient();
