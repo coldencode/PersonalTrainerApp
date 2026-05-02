@@ -1,6 +1,5 @@
 package com.example.personaltrainerapp.ui.fruits;
 
-import com.example.personaltrainerapp.services.FruityViceAPIService;
 import com.example.personaltrainerapp.model.Fruit;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
