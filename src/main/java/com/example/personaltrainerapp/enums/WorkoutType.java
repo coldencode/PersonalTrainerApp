@@ -1,12 +1,11 @@
 package com.example.personaltrainerapp.enums;
 
 public enum WorkoutType {
-    RUNNING          ("Running", "🏃"),
-    CYCLING          ("Cycling", "🚴"),
-    STRENGTH_TRAINING("Strength Training", "💪"),
-    HIIT             ("HIIT","⚡"),
-    SWIMMING         ("Swimming","🏊"),
-    OTHER            ("Other","🏋");
+    RUNNING ("Running", "🏃"),
+    CYCLING ("Cycling", "🚴"),
+    PUSH ("Push", "💪"),
+    PULL ("Pull", "💪"),
+    OTHER ("Other","🏋");
 
     private final String label;
     private final String icon;

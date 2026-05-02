@@ -40,7 +40,7 @@ public class WorkoutController {
 
         ComboBox<WorkoutType> typeCombo = new ComboBox<>();
         typeCombo.getItems().addAll(WorkoutType.values());
-        typeCombo.setValue(preSelectRun ? WorkoutType.RUNNING : WorkoutType.STRENGTH_TRAINING);
+        typeCombo.setValue(preSelectRun ? WorkoutType.RUNNING : WorkoutType.PUSH);
 
         TextField durationField = new TextField();
         durationField.setPromptText("e.g. 30");
