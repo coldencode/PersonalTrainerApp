@@ -33,7 +33,15 @@ public class PushUpController {
     // Right bottom — chart
     @FXML private LineChart<String, Number> pushUpChart;
 
-    private final PushUpViewModel vm = new PushUpViewModel();
+    private final PushUpViewModel vm;
+
+    public PushUpController() {
+        this(new PushUpViewModel());
+    }
+
+    public PushUpController(PushUpViewModel vm) {
+        this.vm = vm;
+    }
 
     @FXML
     public void initialize() {

@@ -25,11 +25,18 @@ public class PushUpViewModel {
     private final ObservableList<PushUpEntry> recentEntries = FXCollections.observableArrayList();
 
     public PushUpViewModel() {
-        Connection conn = new DatabaseManager().getConnection();
-        user       = new UserRepository(conn).findFirst()
-                         .orElseThrow(() -> new IllegalStateException("No user found"));
-        pushUpRepo = new PushUpRepository(conn);
-        friendRepo = new FriendRepository(conn);
+        this(new DatabaseManager().getConnection());
+    }
+
+    public PushUpViewModel(Connection conn) {
+        this(new UserRepository(conn), new PushUpRepository(conn), new FriendRepository(conn));
+    }
+
+    public PushUpViewModel(UserRepository userRepo, PushUpRepository pushUpRepo, FriendRepository friendRepo) {
+        this.user       = userRepo.findFirst()
+                                  .orElseThrow(() -> new IllegalStateException("No user found"));
+        this.pushUpRepo = pushUpRepo;
+        this.friendRepo = friendRepo;
         refresh();
     }
 

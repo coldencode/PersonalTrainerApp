@@ -22,7 +22,15 @@ public class WorkoutController {
     @FXML private Label bestPaceLabel;
     @FXML private Label longestSessionLabel;
 
-    private final WorkoutViewModel vm = new WorkoutViewModel();
+    private final WorkoutViewModel vm;
+
+    public WorkoutController() {
+        this(new WorkoutViewModel());
+    }
+
+    public WorkoutController(WorkoutViewModel vm) {
+        this.vm = vm;
+    }
 
     @FXML
     public void initialize() {

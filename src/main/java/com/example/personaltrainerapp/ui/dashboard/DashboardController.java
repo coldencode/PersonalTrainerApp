@@ -24,7 +24,15 @@ public class DashboardController {
     @FXML private Label bmiCategoryLabel;
     @FXML private LineChart<String, Number> weightChart;
 
-    private final DashboardViewModel vm = new DashboardViewModel();
+    private final DashboardViewModel vm;
+
+    public DashboardController() {
+        this(new DashboardViewModel());
+    }
+
+    public DashboardController(DashboardViewModel vm) {
+        this.vm = vm;
+    }
 
     @FXML
     public void initialize() {

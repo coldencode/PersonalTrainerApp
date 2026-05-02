@@ -31,19 +31,23 @@ public class DashboardViewModel {
     private final UserRepository userRepo;
 
     public DashboardViewModel() {
-        Connection conn = new DatabaseManager().getConnection();
+        this(new DatabaseManager().getConnection());
+    }
 
-        userRepo   = new UserRepository(conn);
-        user       = userRepo.findFirst()
-                             .orElseThrow(() -> new IllegalStateException("No user found"));
+    public DashboardViewModel(Connection conn) {
+        this(new UserRepository(conn), new WeightRepository(conn), new MealRepository(conn));
+    }
 
-        weightRepo = new WeightRepository(conn);
-        mealRepo   = new MealRepository(conn);
+    public DashboardViewModel(UserRepository userRepo, WeightRepository weightRepo, MealRepository mealRepo) {
+        this.userRepo   = userRepo;
+        this.weightRepo = weightRepo;
+        this.mealRepo   = mealRepo;
 
-        // Load today's meal intake
+        user = userRepo.findFirst()
+                       .orElseThrow(() -> new IllegalStateException("No user found"));
+
         refreshTodayIntake();
 
-        // Seed the chart with the starting weight from onboarding if nothing logged yet
         weightEntries.setAll(weightRepo.getEntries(user.getId()));
         if (weightEntries.isEmpty() && user.getWeight() > 0) {
             weightRepo.addEntry(user.getId(), user.getWeight(), LocalDate.now());

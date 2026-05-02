@@ -20,10 +20,17 @@ public class WorkoutViewModel {
     private final ObservableList<WorkoutEntry> recentWorkouts = FXCollections.observableArrayList();
 
     public WorkoutViewModel() {
-        Connection conn = new DatabaseManager().getConnection();
-        user        = new UserRepository(conn).findFirst()
-                          .orElseThrow(() -> new IllegalStateException("No user found"));
-        workoutRepo = new WorkoutRepository(conn);
+        this(new DatabaseManager().getConnection());
+    }
+
+    public WorkoutViewModel(Connection conn) {
+        this(new UserRepository(conn), new WorkoutRepository(conn));
+    }
+
+    public WorkoutViewModel(UserRepository userRepo, WorkoutRepository workoutRepo) {
+        this.user        = userRepo.findFirst()
+                                   .orElseThrow(() -> new IllegalStateException("No user found"));
+        this.workoutRepo = workoutRepo;
         refreshRecent();
     }
 
