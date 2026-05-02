@@ -2,7 +2,7 @@ package com.example.personaltrainerapp.ui.dashboard;
 
 import com.example.personaltrainerapp.enums.MealType;
 import com.example.personaltrainerapp.enums.UserGoal;
-import com.example.personaltrainerapp.model.WeightEntry;
+import com.example.personaltrainerapp.model.entries.WeightEntry;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;

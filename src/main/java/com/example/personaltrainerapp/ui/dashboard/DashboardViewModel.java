@@ -2,10 +2,10 @@ package com.example.personaltrainerapp.ui.dashboard;
 
 import com.example.personaltrainerapp.database.DatabaseManager;
 import com.example.personaltrainerapp.enums.MealType;
-import com.example.personaltrainerapp.model.DailyCalorieEntry;
-import com.example.personaltrainerapp.model.MealEntry;
+import com.example.personaltrainerapp.model.entries.DailyCalorieEntry;
+import com.example.personaltrainerapp.model.entries.MealEntry;
 import com.example.personaltrainerapp.model.User;
-import com.example.personaltrainerapp.model.WeightEntry;
+import com.example.personaltrainerapp.model.entries.WeightEntry;
 import com.example.personaltrainerapp.repository.MealRepository;
 import com.example.personaltrainerapp.repository.UserRepository;
 import com.example.personaltrainerapp.repository.WeightRepository;

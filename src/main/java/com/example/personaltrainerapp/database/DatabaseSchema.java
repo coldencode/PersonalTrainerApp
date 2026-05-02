@@ -10,6 +10,8 @@ public class DatabaseSchema {
         createWeightLogTable(conn);
         createMealLogTable(conn);
         createWorkoutLogTable(conn);
+        createPushUpLogTable(conn);
+        createFriendDataTable(conn);
     }
 
     /**
@@ -85,5 +87,32 @@ public class DatabaseSchema {
             );
         """;
         executeStatement(connection, workoutLogTable);
+    }
+
+    private static void createPushUpLogTable(Connection connection) {
+        String pushUpLogTable = """
+            CREATE TABLE IF NOT EXISTS pushup_log (
+                id      INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                count   INTEGER NOT NULL,
+                date    TEXT    NOT NULL,
+                FOREIGN KEY (user_id) REFERENCES users(id)
+            );
+        """;
+        executeStatement(connection, pushUpLogTable);
+    }
+
+    private static void createFriendDataTable(Connection connection) {
+        String friendDataTable = """
+            CREATE TABLE IF NOT EXISTS friend_data (
+                id                INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id           INTEGER NOT NULL UNIQUE,
+                friend_name       TEXT    NOT NULL,
+                total_pushups     INTEGER NOT NULL DEFAULT 0,
+                last_updated_date TEXT    NOT NULL,
+                FOREIGN KEY (user_id) REFERENCES users(id)
+            );
+        """;
+        executeStatement(connection, friendDataTable);
     }
 }
