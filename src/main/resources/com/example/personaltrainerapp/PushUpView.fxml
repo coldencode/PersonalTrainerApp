@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.chart.*?>
+
+<HBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.personaltrainerapp.ui.pushup.PushUpController"
+      spacing="20"
+      style="-fx-padding: 30; -fx-background-color: #F0F2F5; -fx-alignment: top-left;">
+
+    <!-- ── Left: Log + Recent ── -->
+    <VBox spacing="14"
+          style="-fx-background-color: white; -fx-padding: 28; -fx-pref-width: 360;
+                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 12, 0, 0, 3);">
+
+        <Label text="Push-Ups"
+               style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #20232A;" />
+
+        <Button text="💪  Log Push-Ups" onAction="#onLogPushUps" maxWidth="Infinity"
+                style="-fx-background-color: #20232A; -fx-text-fill: white;
+                       -fx-font-size: 13px; -fx-padding: 10 18; -fx-cursor: hand;" />
+
+        <Separator />
+
+        <Label text="RECENT"
+               style="-fx-font-size: 11px; -fx-text-fill: #AAA; -fx-font-weight: bold;" />
+
+        <ListView fx:id="recentListView" VBox.vgrow="ALWAYS" prefHeight="400"
+                  style="-fx-font-size: 13px;" />
+
+    </VBox>
+
+    <!-- ── Right: Stats + Chart ── -->
+    <VBox spacing="16" HBox.hgrow="ALWAYS">
+
+        <!-- Top: Totals + Competition -->
+        <VBox spacing="14"
+              style="-fx-background-color: white; -fx-padding: 28;
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 12, 0, 0, 3);">
+
+            <Label text="TOTALS"
+                   style="-fx-font-size: 11px; -fx-text-fill: #AAA; -fx-font-weight: bold;" />
+
+            <HBox spacing="40">
+
+                <VBox spacing="2">
+                    <Label fx:id="weeklyTotalLabel"
+                           style="-fx-font-size: 44px; -fx-font-weight: bold; -fx-text-fill: #20232A;" />
+                    <Label text="this week"
+                           style="-fx-font-size: 12px; -fx-text-fill: #AAA;" />
+                </VBox>
+
+                <VBox spacing="2">
+                    <Label fx:id="monthlyTotalLabel"
+                           style="-fx-font-size: 44px; -fx-font-weight: bold; -fx-text-fill: #20232A;" />
+                    <Label text="this month"
+                           style="-fx-font-size: 12px; -fx-text-fill: #AAA;" />
+                </VBox>
+
+                <VBox spacing="2">
+                    <Label fx:id="overallTotalLabel"
+                           style="-fx-font-size: 44px; -fx-font-weight: bold; -fx-text-fill: #20232A;" />
+                    <Label text="overall"
+                           style="-fx-font-size: 12px; -fx-text-fill: #AAA;" />
+                </VBox>
+
+            </HBox>
+
+            <Separator />
+
+            <!-- Competition section -->
+            <Label text="COMPETITION"
+                   style="-fx-font-size: 11px; -fx-text-fill: #AAA; -fx-font-weight: bold;" />
+
+            <!-- Shown when no friend selected yet -->
+            <Button fx:id="selectFriendButton" text="🏆  Compete with a Friend"
+                    onAction="#onSelectFriend" maxWidth="Infinity"
+                    style="-fx-background-color: #F0F2F5; -fx-text-fill: #20232A;
+                           -fx-font-size: 13px; -fx-padding: 10 18; -fx-cursor: hand;" />
+
+            <!-- Shown once a friend is selected -->
+            <VBox fx:id="friendStatsBox" spacing="10" visible="false" managed="false">
+
+                <HBox spacing="40" style="-fx-alignment: center-left;">
+
+                    <!-- Friend total -->
+                    <VBox spacing="2">
+                        <Label fx:id="friendNameLabel"
+                               style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #20232A;" />
+                        <Label fx:id="friendTotalLabel"
+                               style="-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: #555;" />
+                        <Label text="total push-ups"
+                               style="-fx-font-size: 12px; -fx-text-fill: #AAA;" />
+                    </VBox>
+
+                    <!-- Versus label -->
+                    <VBox spacing="2" style="-fx-alignment: center;">
+                        <Label fx:id="versusLabel"
+                               style="-fx-font-size: 13px; -fx-font-weight: bold;" />
+                    </VBox>
+
+                </HBox>
+
+            </VBox>
+
+        </VBox>
+
+        <!-- Bottom: Chart -->
+        <VBox spacing="10" VBox.vgrow="ALWAYS"
+              style="-fx-background-color: white; -fx-padding: 28;
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 12, 0, 0, 3);">
+
+            <Label text="HISTORY"
+                   style="-fx-font-size: 11px; -fx-text-fill: #AAA; -fx-font-weight: bold;" />
+
+            <LineChart fx:id="pushUpChart" VBox.vgrow="ALWAYS"
+                       legendVisible="false" animated="false"
+                       style="-fx-padding: 0;">
+                <xAxis>
+                    <CategoryAxis label="Date" tickLabelRotation="45" />
+                </xAxis>
+                <yAxis>
+                    <NumberAxis label="Reps" autoRanging="true" />
+                </yAxis>
+            </LineChart>
+
+        </VBox>
+
+    </VBox>
+
+</HBox>
