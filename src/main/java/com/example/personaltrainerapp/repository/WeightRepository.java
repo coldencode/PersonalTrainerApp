@@ -7,6 +7,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A repository class to handle all weight records
+ */
 public class WeightRepository {
 
     private final Connection connection;
@@ -27,6 +30,11 @@ public class WeightRepository {
         }
     }
 
+    /**
+     * Get the list of Weight entries from the DB
+     * @param userId - User ID
+     * @return a list of weight entry record instances
+     */
     public List<WeightEntry> getEntries(int userId) {
         String sql = "SELECT id, weight, date FROM weight_log WHERE user_id = ? ORDER BY date ASC";
         List<WeightEntry> entries = new ArrayList<>();
