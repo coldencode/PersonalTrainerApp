@@ -11,6 +11,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
+/**
+ * Controller to handle the UI variables and initialisation logic
+ */
 public class FruitsController {
 
     @FXML private TextField searchField;
