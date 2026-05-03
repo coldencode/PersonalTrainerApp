@@ -12,6 +12,9 @@ import javafx.scene.control.TextInputDialog;
 
 import java.util.List;
 
+/**
+ * Controller to handle Dashboard variables and UI logic
+ */
 public class DashboardController {
 
     @FXML private Label welcomeLabel;
@@ -25,10 +28,6 @@ public class DashboardController {
     @FXML private LineChart<String, Number> weightChart;
 
     private final DashboardViewModel vm;
-
-    public DashboardController() {
-        this(new DashboardViewModel());
-    }
 
     public DashboardController(DashboardViewModel vm) {
         this.vm = vm;
@@ -58,6 +57,9 @@ public class DashboardController {
         refreshChart();
     }
 
+    /**
+     * Handles the Change button for the Weekly Goal Section
+     */
     @FXML
     private void onChangeWeeklyGoal() {
         UserGoal goal = vm.getUser().getGoal();
@@ -94,6 +96,9 @@ public class DashboardController {
     @FXML private void onLogLunch()     { showLogDialog(MealType.LUNCH); }
     @FXML private void onLogDinner()    { showLogDialog(MealType.DINNER); }
 
+    /**
+     * Shows the log dialog for the meal
+     */
     private void showLogDialog(MealType mealType) {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Log " + mealType.getLabel());
@@ -103,12 +108,15 @@ public class DashboardController {
             try {
                 int calories = Integer.parseInt(input.trim());
                 vm.logMeal(mealType, calories);
+                // Refresh calories chart
+                refreshCalorieChart();
             } catch (NumberFormatException e) {
-                // TODO: show inline validation message
+                System.out.println("Invalid number");
             }
         });
     }
 
+    /** Display the remaining daily calories goal */
     private void updateRemaining(int intake) {
         int remaining = vm.getDailyCalories() - intake;
         if (remaining >= 0) {
@@ -120,6 +128,9 @@ public class DashboardController {
         }
     }
 
+    /**
+     * Opens a dialog to set a new weight log
+     */
     @FXML
     private void onAddWeight() {
         TextInputDialog dialog = new TextInputDialog();
@@ -132,11 +143,14 @@ public class DashboardController {
                 vm.addWeight(weight);
                 refreshChart();
             } catch (NumberFormatException e) {
-                // TODO: show inline validation message
+                System.out.println("Invalid number!");
             }
         });
     }
 
+    /**
+     * Refreshes the calories chart
+     */
     private void refreshCalorieChart() {
         calorieHistoryChart.getData().clear();
 
@@ -157,6 +171,9 @@ public class DashboardController {
         calorieHistoryChart.getData().addAll(intakeSeries, goalSeries);
     }
 
+    /**
+     * Refreshes the weight chart
+     */
     private void refreshChart() {
         weightChart.getData().clear();
         XYChart.Series<String, Number> series = new XYChart.Series<>();

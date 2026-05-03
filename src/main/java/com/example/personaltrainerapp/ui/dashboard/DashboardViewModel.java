@@ -18,6 +18,9 @@ import java.sql.Connection;
 import java.time.LocalDate;
 import java.time.Period;
 
+/**
+ * View Model for the Dashboard to handle view logic
+ */
 public class DashboardViewModel {
 
     private final User user;
@@ -30,18 +33,10 @@ public class DashboardViewModel {
     private final MealRepository mealRepo;
     private final UserRepository userRepo;
 
-    public DashboardViewModel() {
-        this(new DatabaseManager().getConnection());
-    }
-
-    public DashboardViewModel(Connection conn) {
-        this(new UserRepository(conn), new WeightRepository(conn), new MealRepository(conn));
-    }
-
     public DashboardViewModel(UserRepository userRepo, WeightRepository weightRepo, MealRepository mealRepo) {
-        this.userRepo   = userRepo;
+        this.userRepo = userRepo;
         this.weightRepo = weightRepo;
-        this.mealRepo   = mealRepo;
+        this.mealRepo = mealRepo;
 
         user = userRepo.findFirst()
                        .orElseThrow(() -> new IllegalStateException("No user found"));
@@ -58,7 +53,6 @@ public class DashboardViewModel {
     }
 
     // ── Calorie calculation (Mifflin-St Jeor + TDEE + weekly goal adjustment) ──
-
     private int calculateDailyCalories(User user) {
         if (user.getWeight() == 0 || user.getHeight() == 0 || user.getDateOfBirth() == null) {
             return 2000; // sensible default when data is missing
@@ -87,7 +81,7 @@ public class DashboardViewModel {
         return (int) Math.round(tdee + adjustment);
     }
 
-    // ── BMI calculation ──
+    // FOR BMI Calculations
 
     /** Returns BMI rounded to one decimal place, or -1 if data is missing. */
     public double getBmi() {
@@ -106,16 +100,14 @@ public class DashboardViewModel {
         return "Obese";
     }
 
-    // ── Weekly goal ──
-
+    // Update the user's Weekly goal
     public void updateWeeklyGoal(String weeklyGoal) {
         user.setWeeklyGoal(weeklyGoal);
         userRepo.updateWeeklyGoal(user.getId(), weeklyGoal);
         dailyCalories = calculateDailyCalories(user);
     }
 
-    // ── Meal log ──
-
+    // Log meal functions
     public void logMeal(MealType mealType, int calories) {
         mealRepo.logMeal(user.getId(), mealType, calories, LocalDate.now());
         refreshTodayIntake();
@@ -131,15 +123,14 @@ public class DashboardViewModel {
     public IntegerProperty todayIntakeProperty()                          { return todayIntake; }
     public ObservableList<DailyCalorieEntry> getCalorieDailyTotals()      { return calorieDailyTotals; }
 
-    // ── Weight log mutations ──
-
+    /** Add weight entry to the DB and update the in-memroy array
+     */
     public void addWeight(double weight) {
         weightRepo.addEntry(user.getId(), weight, LocalDate.now());
         weightEntries.setAll(weightRepo.getEntries(user.getId()));
     }
 
-    // ── Getters ──
-
+    // Getter methods
     public User getUser()                              { return user; }
     public ObservableList<WeightEntry> getWeightEntries() { return weightEntries; }
     public int getDailyCalories()                      { return dailyCalories; }
