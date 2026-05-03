@@ -4,7 +4,7 @@ import com.example.personaltrainerapp.database.DatabaseManager;
 import com.example.personaltrainerapp.database.DatabaseSchema;
 import com.example.personaltrainerapp.services.FruitApiService;
 import com.example.personaltrainerapp.services.FruityViceAPIService;
-import com.example.personaltrainerapp.services.MockFruityViceAPIService;
+import com.example.personaltrainerapp.ui.onboarding.OnboardingController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -35,6 +35,13 @@ public class Main extends Application {
         Scene scene;
         if (isFirstLaunch) {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("OnboardingView.fxml"));
+            loader.setControllerFactory(clazz -> new OnboardingController(ctx, () -> {
+                try {
+                    stage.setScene(new Scene(SceneManager.buildMainScene(ctx)));
+                } catch (IOException e) {
+                    throw new RuntimeException("Failed to load main view", e);
+                }
+            }));
             scene = new Scene(loader.load());
         } else {
             scene = new Scene(SceneManager.buildMainScene(ctx));

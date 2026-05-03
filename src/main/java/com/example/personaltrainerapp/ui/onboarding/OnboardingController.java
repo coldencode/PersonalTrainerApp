@@ -1,19 +1,11 @@
 package com.example.personaltrainerapp.ui.onboarding;
 
 import com.example.personaltrainerapp.AppContext;
-import com.example.personaltrainerapp.SceneManager;
-import com.example.personaltrainerapp.database.DatabaseManager;
 import com.example.personaltrainerapp.enums.UserGoal;
-import com.example.personaltrainerapp.repository.UserRepository;
 import com.example.personaltrainerapp.model.User;
-import com.example.personaltrainerapp.services.FruityViceAPIService;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class OnboardingController {
 
@@ -37,7 +29,14 @@ public class OnboardingController {
     @FXML private ToggleGroup weeklyGoalGroup;
     @FXML private RadioButton weeklyOption1, weeklyOption2, weeklyOption3;
 
+    private final AppContext ctx;
+    private final Runnable onComplete;
     private int currentStep = 1;
+
+    public OnboardingController(AppContext ctx, Runnable onComplete) {
+        this.ctx        = ctx;
+        this.onComplete = onComplete;
+    }
 
     @FXML
     public void initialize() {
@@ -78,7 +77,6 @@ public class OnboardingController {
                 weeklyOption3.setText("Lose 1.0 kg / week  (aggressive)");
             }
             default -> {
-                // Maintain Weight — only one option needed
                 weeklyGoalTitle.setText("What's your weekly focus?");
                 weeklyOption1.setText("Keep my current weight");
                 weeklyOption2.setText("Improve body composition");
@@ -121,17 +119,7 @@ public class OnboardingController {
         RadioButton selectedWeekly = (RadioButton) weeklyGoalGroup.getSelectedToggle();
         if (selectedWeekly != null) user.setWeeklyGoal(selectedWeekly.getText());
 
-        DatabaseManager db = new DatabaseManager();
-        var conn = db.getConnection();
-        new UserRepository(conn).save(user);
-
-        // Switch to main tab view
-        try {
-            AppContext ctx = new AppContext(conn, new FruityViceAPIService());
-            Stage stage = (Stage) nameField.getScene().getWindow();
-            stage.setScene(new Scene(SceneManager.buildMainScene(ctx)));
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to load main view", e);
-        }
+        ctx.userRepo.save(user);
+        onComplete.run();
     }
 }
