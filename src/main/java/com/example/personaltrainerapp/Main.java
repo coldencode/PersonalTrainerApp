@@ -2,7 +2,9 @@ package com.example.personaltrainerapp;
 
 import com.example.personaltrainerapp.database.DatabaseManager;
 import com.example.personaltrainerapp.database.DatabaseSchema;
-import com.example.personaltrainerapp.repository.UserRepository;
+import com.example.personaltrainerapp.services.FruitApiService;
+import com.example.personaltrainerapp.services.FruityViceAPIService;
+import com.example.personaltrainerapp.services.MockFruityViceAPIService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -22,15 +24,20 @@ public class Main extends Application {
         Connection connection = db.getConnection();
         DatabaseSchema.init(connection);
 
+
+        // Instantiate Fruity Vice API Service (can be mock-tested)
+        FruitApiService apiService = new FruityViceAPIService();
+        AppContext ctx = new AppContext(connection, apiService);
+
         // Route to onboarding on first launch, main tab view otherwise
-        boolean isFirstLaunch = !new UserRepository(connection).hasUser();
+        boolean isFirstLaunch = !ctx.userRepo.hasUser();
 
         Scene scene;
         if (isFirstLaunch) {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource("OnboardingView.fxml"));
             scene = new Scene(loader.load());
         } else {
-            scene = new Scene(SceneManager.buildMainScene());
+            scene = new Scene(SceneManager.buildMainScene(ctx));
         }
         stage.setTitle("Personal Trainer App");
         stage.setScene(scene);

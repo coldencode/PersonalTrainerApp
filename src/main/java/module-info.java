@@ -13,4 +13,6 @@ module com.example.personaltrainerapp {
     opens com.example.personaltrainerapp.ui.pushup to javafx.fxml;
     opens com.example.personaltrainerapp.ui.fruits to javafx.fxml;
     exports com.example.personaltrainerapp;
+    exports com.example.personaltrainerapp.repository;
+    exports com.example.personaltrainerapp.services;
 }
