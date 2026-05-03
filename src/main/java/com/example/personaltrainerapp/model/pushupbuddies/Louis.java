@@ -1,5 +1,8 @@
 package com.example.personaltrainerapp.model.pushupbuddies;
 
+/**
+ * Class to represent Louis who is a casual Friend that rarely does push-ups
+ */
 public class Louis extends Friend {
 
     public Louis() {
@@ -7,5 +10,5 @@ public class Louis extends Friend {
     }
 
     @Override
-    public String getDescription() { return "Chill"; }
+    public String getDescription() { return "Casual"; }
 }

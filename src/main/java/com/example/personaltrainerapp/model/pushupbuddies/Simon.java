@@ -1,5 +1,8 @@
 package com.example.personaltrainerapp.model.pushupbuddies;
 
+/**
+ * Class to represent Simon, a friend that occassionally does push-ups
+ */
 public class Simon extends Friend {
 
     public Simon() {
