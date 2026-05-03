@@ -58,22 +58,30 @@ public class WorkoutController {
         TextField distanceField = new TextField();
         distanceField.setPromptText("e.g. 5.0");
 
-        // Show distance row only for Running
+        // Show distance row only for Running, then resize the dialog to fit
         Runnable updateVisibility = () -> {
             boolean running = typeCombo.getValue() == WorkoutType.RUNNING;
             distanceLabel.setVisible(running); distanceLabel.setManaged(running);
             distanceField.setVisible(running); distanceField.setManaged(running);
+            dialog.getDialogPane().getScene().getWindow().sizeToScene();
         };
         typeCombo.setOnAction(e -> updateVisibility.run());
         updateVisibility.run();
 
-        VBox content = new VBox(8,
+        typeCombo.setMaxWidth(Double.MAX_VALUE);
+        durationField.setMaxWidth(Double.MAX_VALUE);
+        distanceField.setMaxWidth(Double.MAX_VALUE);
+
+        VBox content = new VBox(10,
                 new Label("Type:"),    typeCombo,
                 new Label("Duration (minutes):"), durationField,
                 distanceLabel, distanceField
         );
-        content.setStyle("-fx-padding: 10;");
+        content.setStyle("-fx-padding: 20;");
+        content.setPrefWidth(340);
+
         dialog.getDialogPane().setContent(content);
+        dialog.getDialogPane().setPrefWidth(400);
 
         dialog.showAndWait().ifPresent(btn -> {
             if (btn != ButtonType.OK) return;
