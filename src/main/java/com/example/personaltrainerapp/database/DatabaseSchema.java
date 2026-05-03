@@ -4,8 +4,17 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Schema for the SQLite Database
+ * Creates all the Tables if it does not already exist
+ */
 public class DatabaseSchema {
+    /**
+     * Static method to create all the tables in the database
+     * @param conn - Connection URL to the database
+     */
     public static void init(Connection conn) {
+        // Creates the tables
         createUserTable(conn);
         createWeightLogTable(conn);
         createMealLogTable(conn);
@@ -47,6 +56,9 @@ public class DatabaseSchema {
         executeStatement(connection, usersTable);
     }
 
+    /**
+     * Creates a Weight Log table to log the weight history of a User
+     */
     private static void createWeightLogTable(Connection connection) {
         String weightLogTable = """
             CREATE TABLE IF NOT EXISTS weight_log (
@@ -60,6 +72,9 @@ public class DatabaseSchema {
         executeStatement(connection, weightLogTable);
     }
 
+    /**
+     * Creates a Meal Log table to log the meal history of a User
+     */
     private static void createMealLogTable(Connection connection) {
         String mealLogTable = """
             CREATE TABLE IF NOT EXISTS meal_log (
@@ -74,6 +89,9 @@ public class DatabaseSchema {
         executeStatement(connection, mealLogTable);
     }
 
+    /**
+     * Create a Workout Log table to log the workout history of a User
+     */
     private static void createWorkoutLogTable(Connection connection) {
         String workoutLogTable = """
             CREATE TABLE IF NOT EXISTS workout_log (
@@ -89,6 +107,9 @@ public class DatabaseSchema {
         executeStatement(connection, workoutLogTable);
     }
 
+    /**
+     * Creates a Push Up Log table to log the number of pushups by a User
+     */
     private static void createPushUpLogTable(Connection connection) {
         String pushUpLogTable = """
             CREATE TABLE IF NOT EXISTS pushup_log (
@@ -102,6 +123,9 @@ public class DatabaseSchema {
         executeStatement(connection, pushUpLogTable);
     }
 
+    /**
+     * Creates a Friend table to log daily pushups of a Friend
+     */
     private static void createFriendDataTable(Connection connection) {
         String friendDataTable = """
             CREATE TABLE IF NOT EXISTS friend_data (
