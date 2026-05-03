@@ -13,20 +13,14 @@ import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.Optional;
 
+/**
+ * View model to handle the business logic of the Workout page
+ */
 public class WorkoutViewModel {
 
     private final User user;
     private final WorkoutRepository workoutRepo;
     private final ObservableList<WorkoutEntry> recentWorkouts = FXCollections.observableArrayList();
-
-    public WorkoutViewModel() {
-        this(new DatabaseManager().getConnection());
-    }
-
-    public WorkoutViewModel(Connection conn) {
-        this(new UserRepository(conn), new WorkoutRepository(conn));
-    }
-
     public WorkoutViewModel(UserRepository userRepo, WorkoutRepository workoutRepo) {
         this.user        = userRepo.findFirst()
                                    .orElseThrow(() -> new IllegalStateException("No user found"));
@@ -34,16 +28,22 @@ public class WorkoutViewModel {
         refreshRecent();
     }
 
+    /**
+     * Logs the workout entry to the DB using the Repo
+     */
     public void logWorkout(WorkoutType type, int durationMinutes, Double distanceKm) {
         workoutRepo.logWorkout(user.getId(), type, durationMinutes, distanceKm, LocalDate.now());
         refreshRecent();
     }
 
+    /**
+     * Refresh the workouts list by the User
+     */
     private void refreshRecent() {
         recentWorkouts.setAll(workoutRepo.getRecentWorkouts(user.getId()));
     }
 
-    // ── Weekly stats (computed from this week's list) ──
+    // Weekly stats (computed from this week's list)
 
     public int getWeeklyWorkoutCount()   {
         return workoutRepo.getThisWeekWorkouts(user.getId()).size();
@@ -60,13 +60,13 @@ public class WorkoutViewModel {
                 .mapToDouble(WorkoutEntry::distanceKm).sum();
     }
 
-    // ── Personal bests ──
+    // PB Section
 
     public double getMaxRunDistanceKm()       { return workoutRepo.getMaxRunDistanceKm(user.getId()); }
     public double getBestRunPaceMinPerKm()    { return workoutRepo.getBestRunPaceMinPerKm(user.getId()); }
     public Optional<WorkoutEntry> getLongestWorkout() { return workoutRepo.getLongestWorkout(user.getId()); }
 
-    // ── Getters ──
+    // Getters
 
     public ObservableList<WorkoutEntry> getRecentWorkouts() { return recentWorkouts; }
 }

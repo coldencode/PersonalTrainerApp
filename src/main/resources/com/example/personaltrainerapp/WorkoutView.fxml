@@ -16,14 +16,9 @@
         <Label text="Log a Workout"
                style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #20232A;" />
 
-        <HBox spacing="10">
-            <Button text="+ Log Workout" onAction="#onLogWorkout"
-                    style="-fx-background-color: #20232A; -fx-text-fill: white;
-                           -fx-font-size: 13px; -fx-padding: 8 18; -fx-cursor: hand;" />
-            <Button text="🏃  Log Run" onAction="#onLogRun"
-                    style="-fx-background-color: #F0F2F5; -fx-text-fill: #333;
-                           -fx-font-size: 13px; -fx-padding: 8 18; -fx-cursor: hand;" />
-        </HBox>
+        <Button text="+ Log Workout" onAction="#onLogWorkout"
+                style="-fx-background-color: #20232A; -fx-text-fill: white;
+                       -fx-font-size: 13px; -fx-padding: 8 18; -fx-cursor: hand;" />
 
         <Separator />
 

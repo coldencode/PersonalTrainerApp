@@ -8,6 +8,9 @@ import javafx.scene.layout.VBox;
 
 import java.util.Optional;
 
+/**
+ * Controller to handle the Workout Page
+ */
 public class WorkoutController {
 
     @FXML private ListView<String> recentListView;
@@ -24,10 +27,6 @@ public class WorkoutController {
 
     private final WorkoutViewModel vm;
 
-    public WorkoutController() {
-        this(new WorkoutViewModel());
-    }
-
     public WorkoutController(WorkoutViewModel vm) {
         this.vm = vm;
     }
@@ -37,18 +36,20 @@ public class WorkoutController {
         refresh();
     }
 
-    @FXML private void onLogWorkout() { showWorkoutDialog(false); }
-    @FXML private void onLogRun()     { showWorkoutDialog(true); }
+    @FXML private void onLogWorkout() { showWorkoutDialog(); }
 
-    private void showWorkoutDialog(boolean preSelectRun) {
+    /**
+     * Show the dialog when Log workout is pressed
+     */
+    private void showWorkoutDialog() {
         Dialog<ButtonType> dialog = new Dialog<>();
-        dialog.setTitle(preSelectRun ? "Log a Run" : "Log a Workout");
-        dialog.setHeaderText(preSelectRun ? "Track your run" : "Log a workout session");
+        dialog.setTitle("Log a Workout");
+        dialog.setHeaderText("Log a workout session");
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
         ComboBox<WorkoutType> typeCombo = new ComboBox<>();
         typeCombo.getItems().addAll(WorkoutType.values());
-        typeCombo.setValue(preSelectRun ? WorkoutType.RUNNING : WorkoutType.PUSH);
+        typeCombo.setValue(WorkoutType.PUSH);
 
         TextField durationField = new TextField();
         durationField.setPromptText("e.g. 30");
@@ -86,17 +87,23 @@ public class WorkoutController {
                 vm.logWorkout(type, duration, distance);
                 refresh();
             } catch (NumberFormatException ignored) {
-                // TODO: show validation alert
+                System.out.println("Invalid number");
             }
         });
     }
 
+    /**
+     * Refreshes all the calls from the repo
+     */
     private void refresh() {
         refreshRecentList();
         refreshWeeklyStats();
         refreshPersonalBests();
     }
 
+    /**
+     * Refresh the recent list for the pushup list section
+     */
     private void refreshRecentList() {
         recentListView.getItems().clear();
         for (WorkoutEntry e : vm.getRecentWorkouts()) {
@@ -109,12 +116,18 @@ public class WorkoutController {
         }
     }
 
+    /**
+     * Refreshes the weekly stats
+     */
     private void refreshWeeklyStats() {
         weekCountLabel.setText(String.valueOf(vm.getWeeklyWorkoutCount()));
         weekMinutesLabel.setText(String.valueOf(vm.getWeeklyTotalMinutes()));
         weekDistanceLabel.setText(String.format("%.1f", vm.getWeeklyTotalDistanceKm()));
     }
 
+    /**
+     * Refresh the PBs
+     */
     private void refreshPersonalBests() {
         double maxDist = vm.getMaxRunDistanceKm();
         bestRunLabel.setText(maxDist > 0
