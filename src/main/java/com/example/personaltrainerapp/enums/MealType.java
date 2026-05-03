@@ -34,7 +34,6 @@ public enum MealType {
 
     /**
      * String representation of the enum
-     * @return
      */
     @Override
     public String toString() { return label; }

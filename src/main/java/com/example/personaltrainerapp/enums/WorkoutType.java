@@ -1,5 +1,8 @@
 package com.example.personaltrainerapp.enums;
 
+/**
+ * Enumeration class to hold the workout types
+ */
 public enum WorkoutType {
     RUNNING ("Running", "🏃"),
     CYCLING ("Cycling", "🚴"),
@@ -18,6 +21,11 @@ public enum WorkoutType {
     public String getLabel() { return label; }
     public String getIcon()  { return icon; }
 
+    /**
+     * Method to retrieve an enum from SQLite database
+     * @param label - The workout_type String stored in the SQLite Database
+     * @return t - The workout_type as a WorkoutType enumeration or OTHER if doesnt exist
+     */
     public static WorkoutType fromLabel(String label) {
         for (WorkoutType t : values()) {
             if (t.label.equals(label)) return t;

@@ -1,9 +1,16 @@
 package com.example.personaltrainerapp.enums;
 
+
+/**
+ * Enumeration class to hold the goals of a User
+ */
 public enum UserGoal {
-    LOSE_WEIGHT    ("Lose Weight"),
+    /** If User wants to lose weight goal **/
+    LOSE_WEIGHT ("Lose Weight"),
+    /** If User wants to maintain weight goal **/
     MAINTAIN_WEIGHT("Maintain Weight"),
-    GAIN_WEIGHT    ("Gain Weight");
+    /** If User wants to gain weight goal **/
+    GAIN_WEIGHT("Gain Weight");
 
     private final String label;
 
@@ -13,6 +20,11 @@ public enum UserGoal {
 
     public String getLabel() { return label; }
 
+    /**
+     * Method to retrieve an enum from SQLite database
+     * @param label - The user_goal stored in the SQLite Database
+     * @return g - The user_goal as an UserGoal enumeration
+     */
     public static UserGoal fromLabel(String label) {
         if (label == null) return null;
         for (UserGoal g : values()) {
@@ -21,6 +33,9 @@ public enum UserGoal {
         return null;
     }
 
+    /**
+     * String representation of the enum
+     */
     @Override
     public String toString() { return label; }
 }
