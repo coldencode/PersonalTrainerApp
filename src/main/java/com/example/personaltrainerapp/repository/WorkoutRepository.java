@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Repository class to handle all workout-related logic
+ */
 public class WorkoutRepository {
 
     private final Connection connection;
@@ -18,6 +21,14 @@ public class WorkoutRepository {
         this.connection = connection;
     }
 
+    /**
+     * Saves a workout entry into the database
+     * @param userId - user id that recorded the workout
+     * @param type - type of workout
+     * @param durationMinutes - duration of workout
+     * @param distanceKm - distance (if any) of the workout
+     * @param date - date recorded
+     */
     public void logWorkout(int userId, WorkoutType type, int durationMinutes, Double distanceKm, LocalDate date) {
         String sql = "INSERT INTO workout_log (user_id, type, duration_minutes, distance_km, date) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -81,8 +92,14 @@ public class WorkoutRepository {
         return results.isEmpty() ? Optional.empty() : Optional.of(results.get(0));
     }
 
-    // ── Helpers ──
+    // Helper functions
 
+    /**
+     * Helper function to query the DB
+     * @param sql - SQL Query
+     * @param userId - User ID
+     * @return
+     */
     private List<WorkoutEntry> queryEntries(String sql, int userId) {
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, userId);
@@ -92,6 +109,12 @@ public class WorkoutRepository {
         }
     }
 
+    /**
+     * Get the entries from the DB to convert into WorkoutEntry records
+     * @param rs - Result set from the query
+     * @return list of work out entry records
+     * @throws SQLException
+     */
     private List<WorkoutEntry> mapResultSet(ResultSet rs) throws SQLException {
         List<WorkoutEntry> list = new ArrayList<>();
         while (rs.next()) {
