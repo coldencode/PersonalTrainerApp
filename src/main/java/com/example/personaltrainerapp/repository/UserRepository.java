@@ -7,6 +7,9 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.Optional;
 
+/**
+ * Repository class to handle all User-related logic
+ */
 public class UserRepository {
 
     private final Connection connection;
@@ -15,6 +18,11 @@ public class UserRepository {
         this.connection = connection;
     }
 
+    /**
+     * Finds the first user queried and instantiate it as a User instance
+     * Own note: Should extend this if the application is supposed to handle multiple users
+     * @return a User instance
+     */
     public Optional<User> findFirst() {
         String sql = "SELECT id, name, weight, height, goal, date_of_birth, gender, weekly_goal FROM users LIMIT 1";
         try (Statement stmt = connection.createStatement();
@@ -38,6 +46,10 @@ public class UserRepository {
         }
     }
 
+    /**
+     * Checks if a User exists in the database
+     * @return boolean value if a user exists
+     */
     public boolean hasUser() {
         String sql = "SELECT COUNT(*) FROM users";
         try (Statement stmt = connection.createStatement();
@@ -48,6 +60,11 @@ public class UserRepository {
         }
     }
 
+    /**
+     * Updates the weekly goal of the User
+     * @param userId - user ID
+     * @param weeklyGoal - weekly goal as a String
+     */
     public void updateWeeklyGoal(int userId, String weeklyGoal) {
         String sql = "UPDATE users SET weekly_goal = ? WHERE id = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -59,6 +76,10 @@ public class UserRepository {
         }
     }
 
+    /**
+     * Saves a User into the database
+     * @param user - User instance
+     */
     public void save(User user) {
         String sql = """
             INSERT INTO users (name, weight, height, goal, date_of_birth, gender, weekly_goal)
