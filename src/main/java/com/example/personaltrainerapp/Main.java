@@ -22,6 +22,7 @@ public class Main extends Application {
 
         // Start-up database
         Connection connection = db.getConnection();
+        // Run the schema
         DatabaseSchema.init(connection);
 
 
