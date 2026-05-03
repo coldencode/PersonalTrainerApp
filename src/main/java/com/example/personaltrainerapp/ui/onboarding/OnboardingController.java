@@ -7,6 +7,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
+/**
+ * Controller to handle the large onboarding screen along with the UI logic
+ */
 public class OnboardingController {
 
     // Step panels
@@ -44,6 +47,10 @@ public class OnboardingController {
         showStep(1);
     }
 
+    /**
+     * Handles all the steps of the screen
+     * @param step
+     */
     private void showStep(int step) {
         step1.setVisible(step == 1); step1.setManaged(step == 1);
         step2.setVisible(step == 2); step2.setManaged(step == 2);
@@ -85,6 +92,9 @@ public class OnboardingController {
         }
     }
 
+    /**
+     * Handles the next button
+     */
     @FXML
     private void onNext() {
         if (currentStep < 4) {
@@ -94,11 +104,17 @@ public class OnboardingController {
         }
     }
 
+    /**
+     * Handles the back button
+     */
     @FXML
     private void onBack() {
         if (currentStep > 1) showStep(currentStep - 1);
     }
 
+    /**
+     * Handles the Save button and proceeds to run the SceneManager to build the Tabs
+     */
     private void saveAndProceed() {
         User user = new User();
         user.setName(nameField.getText().trim());
@@ -110,7 +126,7 @@ public class OnboardingController {
             user.setHeight(Double.parseDouble(heightField.getText().trim()));
             user.setWeight(Double.parseDouble(weightField.getText().trim()));
         } catch (NumberFormatException e) {
-            // TODO: show validation error
+            System.out.println("Invalid number!");
         }
 
         user.setDateOfBirth(dobPicker.getValue());
@@ -120,6 +136,7 @@ public class OnboardingController {
         if (selectedWeekly != null) user.setWeeklyGoal(selectedWeekly.getText());
 
         ctx.userRepo.save(user);
+        // On complete, will run the SceneManager
         onComplete.run();
     }
 }
