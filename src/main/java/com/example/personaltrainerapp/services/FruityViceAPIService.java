@@ -11,16 +11,30 @@ import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Service class to connect the FruityVice API endpoint to the app
+ */
 public class FruityViceAPIService implements FruitApiService {
-
+    /** API URL Constant*/
     private static final String BASE_URL = "https://www.fruityvice.com/api/fruit";
     private final HttpClient client = HttpClient.newHttpClient();
 
+    /**
+     * Fetches all the JSON data from the API
+     * @return a String representing the body of the request
+     * @throws Exception if failed
+     */
     public List<Fruit> fetchAll() throws Exception {
         String body = get(BASE_URL + "/all");
         return parseFruits(new JSONArray(body));
     }
 
+    /**
+     * Helper function to create a GET request to the API
+     * @param url - URL of the API
+     * @return the body response from the API as a String
+     * @throws Exception if failed
+     */
     private String get(String url) throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
@@ -33,6 +47,11 @@ public class FruityViceAPIService implements FruitApiService {
         return response.body();
     }
 
+    /**
+     * Parse the JSON Array into a list of Fruit instances
+     * @param array - JSON array from the API
+     * @return a list of fruit
+     */
     private List<Fruit> parseFruits(JSONArray array) {
         List<Fruit> results = new ArrayList<>();
         for (int i = 0; i < array.length(); i++) {
@@ -41,6 +60,11 @@ public class FruityViceAPIService implements FruitApiService {
         return results;
     }
 
+    /**
+     * Parse a single JSON object into a fruit
+     * @param obj - the Json object
+     * @return a Fruit instance representing the JSON object
+     */
     private Fruit parseFruit(JSONObject obj) {
         JSONObject n = obj.getJSONObject("nutritions");
         return new Fruit(

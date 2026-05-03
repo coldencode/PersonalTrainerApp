@@ -4,8 +4,15 @@ import com.example.personaltrainerapp.model.Fruit;
 
 import java.util.List;
 
+/**
+ * A Mock API implementation of the FruityViceAPIService for testing purposes
+ */
 public class MockFruityViceAPIService implements FruitApiService {
 
+    /**
+     * Fetch a list of Fruit objects that are instantiated during runtime
+     * @return a list of fruit objects
+     */
     @Override
     public List<Fruit> fetchAll() {
         return List.of(
