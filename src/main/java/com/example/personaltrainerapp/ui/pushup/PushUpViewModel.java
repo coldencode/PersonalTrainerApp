@@ -1,6 +1,5 @@
 package com.example.personaltrainerapp.ui.pushup;
 
-import com.example.personaltrainerapp.database.DatabaseManager;
 import com.example.personaltrainerapp.model.pushupbuddies.Friend;
 import com.example.personaltrainerapp.model.entries.PushUpEntry;
 import com.example.personaltrainerapp.model.User;
@@ -9,28 +8,21 @@ import com.example.personaltrainerapp.repository.PushUpRepository;
 import com.example.personaltrainerapp.repository.UserRepository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
-import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * View Model to handle the push-up tab, business logic
+ */
 public class PushUpViewModel {
 
     private final User user;
     private final PushUpRepository  pushUpRepo;
     private final FriendRepository  friendRepo;
     private final ObservableList<PushUpEntry> recentEntries = FXCollections.observableArrayList();
-
-    public PushUpViewModel() {
-        this(new DatabaseManager().getConnection());
-    }
-
-    public PushUpViewModel(Connection conn) {
-        this(new UserRepository(conn), new PushUpRepository(conn), new FriendRepository(conn));
-    }
 
     public PushUpViewModel(UserRepository userRepo, PushUpRepository pushUpRepo, FriendRepository friendRepo) {
         this.user       = userRepo.findFirst()
@@ -40,23 +32,29 @@ public class PushUpViewModel {
         refresh();
     }
 
+    /**
+     * Logs all the push ups
+     * @param count
+     */
     public void logPushUps(int count) {
         pushUpRepo.logPushUps(user.getId(), count, LocalDate.now());
         refresh();
     }
 
+    /**
+     * Refreshes the recentEntries variable
+     */
     private void refresh() {
         recentEntries.setAll(pushUpRepo.getRecentEntries(user.getId()));
     }
 
-    // ── Stats ──
+    // Stats section - getters
 
     public int getWeeklyTotal()  { return pushUpRepo.getWeeklyTotal(user.getId()); }
     public int getMonthlyTotal() { return pushUpRepo.getMonthlyTotal(user.getId()); }
     public int getOverallTotal() { return pushUpRepo.getOverallTotal(user.getId()); }
 
-    // ── Chart data: one point per day (summed if multiple sessions) ──
-
+    /**  Returns a list of Chart data (summed push-ups per day)*/
     public Map<LocalDate, Integer> getDailyChartData() {
         List<PushUpEntry> all = pushUpRepo.getAllEntries(user.getId());
         Map<LocalDate, Integer> daily = new LinkedHashMap<>();
@@ -66,10 +64,12 @@ public class PushUpViewModel {
         return daily;
     }
 
+    // Getter to get the latest entries for the List section
     public ObservableList<PushUpEntry> getRecentEntries() { return recentEntries; }
 
-    // ── Friend competition ──
 
+    // Friend section
+    // Check if user has a Friend
     public boolean hasFriend() {
         return friendRepo.hasFriend(user.getId());
     }

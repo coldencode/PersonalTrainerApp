@@ -12,17 +12,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Controller to handle the UI logic for the Push-Up Tab
+ */
 public class PushUpController {
 
-    // Left panel
+    // List pushup section
     @FXML private ListView<String> recentListView;
 
-    // Right top — stats
+    // Total push-up section
     @FXML private Label weeklyTotalLabel;
     @FXML private Label monthlyTotalLabel;
     @FXML private Label overallTotalLabel;
 
-    // Right top — competition
+    // Friend Section
     @FXML private Button selectFriendButton;
     @FXML private VBox   friendStatsBox;
     @FXML private Label  friendNameLabel;
@@ -30,14 +33,10 @@ public class PushUpController {
     @FXML private Label  friendDescLabel;
     @FXML private Label  versusLabel;
 
-    // Right bottom — chart
+    // Push up chart
     @FXML private LineChart<String, Number> pushUpChart;
 
     private final PushUpViewModel vm;
-
-    public PushUpController() {
-        this(new PushUpViewModel());
-    }
 
     public PushUpController(PushUpViewModel vm) {
         this.vm = vm;
@@ -49,6 +48,9 @@ public class PushUpController {
         refreshFriend();
     }
 
+    /**
+     * Handles logging for push-ups
+     */
     @FXML
     private void onLogPushUps() {
         TextInputDialog dialog = new TextInputDialog();
@@ -64,11 +66,14 @@ public class PushUpController {
                     refreshFriend(); // update vs. display after new log
                 }
             } catch (NumberFormatException ignored) {
-                // TODO: show validation alert
+                System.out.println("Invalid number");
             }
         });
     }
 
+    /**
+     * Select a friend based on the choices
+     */
     @FXML
     private void onSelectFriend() {
         ChoiceDialog<String> dialog = new ChoiceDialog<>("Louis",
@@ -85,12 +90,18 @@ public class PushUpController {
         });
     }
 
+    /**
+     * Refreshes all
+     */
     private void refresh() {
         refreshList();
         refreshStats();
         refreshChart();
     }
 
+    /**
+     * Refreshes the push-up list
+     */
     private void refreshList() {
         recentListView.getItems().clear();
         for (var entry : vm.getRecentEntries()) {
@@ -100,12 +111,18 @@ public class PushUpController {
         }
     }
 
+    /**
+     * Refeshes the Stats section
+     */
     private void refreshStats() {
         weeklyTotalLabel.setText(String.valueOf(vm.getWeeklyTotal()));
         monthlyTotalLabel.setText(String.valueOf(vm.getMonthlyTotal()));
         overallTotalLabel.setText(String.valueOf(vm.getOverallTotal()));
     }
 
+    /**
+     * Refreshes the push-up chart
+     */
     private void refreshChart() {
         pushUpChart.getData().clear();
 
@@ -120,12 +137,16 @@ public class PushUpController {
         pushUpChart.getData().add(series);
     }
 
+    /**
+     * Refreshes the friend section
+     */
     private void refreshFriend() {
         if (vm.hasFriend()) {
             selectFriendButton.setVisible(false);
             selectFriendButton.setManaged(false);
 
             Optional<Friend> friendOpt = vm.getFriend();
+            // Checks if a Friend exists
             if (friendOpt.isPresent()) {
                 Friend f = friendOpt.get();
                 friendNameLabel.setText(f.getName() + "  (" + f.getDescription() + ")");
