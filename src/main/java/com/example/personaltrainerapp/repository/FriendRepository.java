@@ -11,6 +11,10 @@ import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.Random;
 
+/**
+ * Repository class responsible for managing Friends and handling
+ * the daily push-up activity logic for a Friend
+ */
 public class FriendRepository {
 
     private final Connection conn;
@@ -33,7 +37,7 @@ public class FriendRepository {
     }
 
     /**
-     * Saves the friend selection for the user. Only call once — the user
+     * Saves the friend selection for the user. Only calls once — the user
      * cannot change their choice afterwards.
      */
     public void selectFriend(int userId, String friendName) {
@@ -68,9 +72,9 @@ public class FriendRepository {
                 return Optional.empty();
             }
 
-            String friendName      = rs.getString("friend_name");
-            int    storedTotal     = rs.getInt("total_pushups");
-            LocalDate lastUpdated  = LocalDate.parse(rs.getString("last_updated_date"));
+            String friendName = rs.getString("friend_name");
+            int storedTotal = rs.getInt("total_pushups");
+            LocalDate lastUpdated = LocalDate.parse(rs.getString("last_updated_date"));
 
             System.out.println("[loadAndSimulate] Loaded friend: " + friendName
                     + ", storedTotal=" + storedTotal
@@ -113,6 +117,12 @@ public class FriendRepository {
         }
     }
 
+    /**
+     * Update the friend's data with the new total pushups and updated date
+     * @param userId - User ID
+     * @param newTotal - New total push-ups counter
+     * @param date - Date of the update
+     */
     private void persistUpdate(int userId, int newTotal, LocalDate date) {
         String sql = "UPDATE friend_data SET total_pushups = ?, last_updated_date = ? WHERE user_id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -125,6 +135,11 @@ public class FriendRepository {
         }
     }
 
+    /**
+     * To instantiate which friend
+     * @param name - Name of the Friend
+     * @return Friend class that represents that friend
+     */
     private Friend instantiateFriend(String name) {
         return switch (name) {
             case "Simon"   -> new Simon();
