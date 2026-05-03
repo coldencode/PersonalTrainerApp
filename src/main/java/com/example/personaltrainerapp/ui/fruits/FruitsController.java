@@ -33,6 +33,7 @@ public class FruitsController {
 
     @FXML
     public void initialize() {
+        // Set the table values with functions
         nameCol.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().name()));
         familyCol.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().family()));
         genusCol.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().genus()));
@@ -42,9 +43,11 @@ public class FruitsController {
         proteinCol.setCellValueFactory(d -> new SimpleObjectProperty<>(d.getValue().protein()));
         fatCol.setCellValueFactory(d -> new SimpleObjectProperty<>(d.getValue().fat()));
 
+        // Create a list of filters
         FilteredList<Fruit> filtered = new FilteredList<>(vm.getFruits(), f -> true);
         fruitsTable.setItems(filtered);
 
+        // Add listener when search field changes
         searchField.textProperty().addListener((obs, old, val) -> {
             String lower = val.toLowerCase();
             filtered.setPredicate(f ->
@@ -56,6 +59,8 @@ public class FruitsController {
         });
 
         statusLabel.setText("Loading fruits...");
+
+        // Runs on a separate thread
         Thread thread = new Thread(() -> {
             try {
                 vm.loadFruits();
