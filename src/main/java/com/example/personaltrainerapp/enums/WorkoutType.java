@@ -33,6 +33,9 @@ public enum WorkoutType {
         return OTHER;
     }
 
+    /**
+     * String representation of the enum
+     */
     @Override
     public String toString() { return label; }
 }
