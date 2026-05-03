@@ -1,10 +1,12 @@
 package com.example.personaltrainerapp.ui.onboarding;
 
+import com.example.personaltrainerapp.AppContext;
 import com.example.personaltrainerapp.SceneManager;
 import com.example.personaltrainerapp.database.DatabaseManager;
 import com.example.personaltrainerapp.enums.UserGoal;
 import com.example.personaltrainerapp.repository.UserRepository;
 import com.example.personaltrainerapp.model.User;
+import com.example.personaltrainerapp.services.FruityViceAPIService;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -120,12 +122,14 @@ public class OnboardingController {
         if (selectedWeekly != null) user.setWeeklyGoal(selectedWeekly.getText());
 
         DatabaseManager db = new DatabaseManager();
-        new UserRepository(db.getConnection()).save(user);
+        var conn = db.getConnection();
+        new UserRepository(conn).save(user);
 
         // Switch to main tab view
         try {
+            AppContext ctx = new AppContext(conn, new FruityViceAPIService());
             Stage stage = (Stage) nameField.getScene().getWindow();
-            stage.setScene(new Scene(SceneManager.buildMainScene()));
+            stage.setScene(new Scene(SceneManager.buildMainScene(ctx)));
         } catch (IOException e) {
             throw new RuntimeException("Failed to load main view", e);
         }
