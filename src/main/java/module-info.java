@@ -15,4 +15,7 @@ module com.example.personaltrainerapp {
     exports com.example.personaltrainerapp;
     exports com.example.personaltrainerapp.repository;
     exports com.example.personaltrainerapp.services;
+    exports com.example.personaltrainerapp.enums;
+    exports com.example.personaltrainerapp.model;
+    exports com.example.personaltrainerapp.model.entries;
 }
