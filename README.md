@@ -10,7 +10,7 @@ Made by Ching Wei Choi
 - Java 17+
 - Maven 3.8+
 
-## How to Run
+## Initial Setup
 
 Go to project folder where ``pom.xml`` is located.
 and run the command:
@@ -18,17 +18,17 @@ and run the command:
 mvn clean javafx:run
 ```
 
-## First Launch
+## Onboarding Screen
 
 On first launch you'll be taken through a short onboarding flow to set up your profile (name, goal, height, weight, date of birth). After that you'll land on the main dashboard.
 
 ## Tabs
 
-| Tab | What it does |
-|---|---|
-| Dashboard | Daily calorie goal, BMI, weight chart |
-| Workouts | Log workouts, weekly stats, personal bests |
-| Push-Ups | Log push-ups, compete against a friend |
+| Tab | What it does                                        |
+|---|-----------------------------------------------------|
+| Dashboard | Daily calorie goal, BMI, weight chart               |
+| Workouts | Log workouts, weekly stats, personal bests          |
+| Push-Ups | Log push-ups, compete against a digital friend      |
 | Fruits | Browse fruit nutrition data from the Fruityvice API |
 
 ## Project Structure
